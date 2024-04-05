@@ -1,0 +1,28 @@
+version: "3.0"
+
+services:
+  app:
+    build:
+      dockerfile: ./Dockerfile
+    ports:
+      - "8000:8000"
+    environment:
+      DB_HOSTNAME: postgres
+    depends_on:
+      - postgres
+    volumes:
+      - ./attachments:/app/attachments
+
+  postgres:
+    image: postgres
+    environment:
+      POSTGRES_USER: quiz
+      POSTGRES_PASSWORD: quiz
+      POSTGRES_DB: quiz
+#    ports:
+#      - "5432:5432"
+    volumes:
+      - database:/var/lib/postgresql
+
+volumes:
+  database:

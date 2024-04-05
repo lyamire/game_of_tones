@@ -1,0 +1,14 @@
+venv/
+venv.wsl/
+.git
+.idea
+.gitignore
+README.md
+
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+*$py.class
+
+.github/
+/database/
