@@ -31,6 +31,7 @@ class Quizzes(models.Model):
         return self.quiz_name
 
 class Rounds(models.Model):
+    quiz = models.ForeignKey(Quizzes, related_name='quiz', on_delete=models.CASCADE)
     round_name = models.CharField(max_length=50)
     round_description = models.TextField()
 
