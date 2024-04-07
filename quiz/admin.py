@@ -21,8 +21,8 @@ class AnswersInline(admin.TabularInline):
     extra = 1
 @admin.register(Questions)
 class QuestionsAdmin(admin.ModelAdmin):
-    list_display = ["title", 'quiz', 'round']
-    list_filter = ['quiz', 'round']
+    list_filter = ['round']
+    list_display = ["get_valid_answer", 'round']
     inlines = [AttachmentInline, AnswersInline]
 
 class RoundsInline(admin.TabularInline):

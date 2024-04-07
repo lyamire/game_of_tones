@@ -1,6 +1,8 @@
+from django.contrib import admin
 from django.contrib.auth.models import User
 from django.utils.translation import gettext_lazy as _
 from django.db import models
+
 
 # Create your models here.
 class Profile(models.Model):
@@ -9,6 +11,7 @@ class Profile(models.Model):
 
     def __str__(self):
         return str(self.user)
+
 
 class Genres(models.Model):
     genre = models.CharField(max_length=50)
@@ -30,6 +33,7 @@ class Quizzes(models.Model):
     def __str__(self):
         return self.quiz_name
 
+
 class Rounds(models.Model):
     quiz = models.ForeignKey(Quizzes, related_name='quiz', on_delete=models.CASCADE)
     round_name = models.CharField(max_length=50)
@@ -38,14 +42,23 @@ class Rounds(models.Model):
     def __str__(self):
         return f'{self.quiz.quiz_name} - {self.round_name}'
 
+
 class Questions(models.Model):
-    quiz = models.ForeignKey(Quizzes, related_name='quizzes', on_delete=models.CASCADE)
-    round = models.ForeignKey(Rounds, related_name='rounds', on_delete=models.CASCADE)
+    round = models.ForeignKey(Rounds, related_name='round', on_delete=models.CASCADE)
     question_text = models.TextField()
-    title = models.CharField(max_length=50)
 
     def __str__(self):
-        return f'{self.round} - {self.title}'
+        return f'{self.round}'
+
+    @admin.display(
+        description='Answer the question'
+    )
+    def get_valid_answer(self):
+        answers: Answers = self.answers.filter(valid_answer=True)
+        if answers is None:
+            return 'No answer'
+        return f'{answers[0].answer}'
+
 
 class Attachments(models.Model):
     class TypesOfAttachments(models.TextChoices):
@@ -60,6 +73,7 @@ class Attachments(models.Model):
     def __str__(self):
         return self.file_path.name
 
+
 class Answers(models.Model):
     question = models.ForeignKey(Questions, related_name='answers', on_delete=models.CASCADE)
     answer = models.TextField(max_length=50)
@@ -68,6 +82,7 @@ class Answers(models.Model):
     def __str__(self):
         return f'{self.question} - {self.answer} - {self.valid_answer}'
 
+
 class Results(models.Model):
     user = models.ForeignKey(Profile, on_delete=models.CASCADE)
     quiz = models.ForeignKey(Quizzes, on_delete=models.CASCADE)
@@ -75,6 +90,7 @@ class Results(models.Model):
 
     def __str__(self):
         return f'{str(self.user.nickname)} - {self.quiz} - {self.result}'
+
 
 class Battles(models.Model):
     quiz = models.ForeignKey(Quizzes, on_delete=models.CASCADE)
