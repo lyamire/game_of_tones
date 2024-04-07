@@ -1,7 +1,10 @@
 ## Description
-Project name: 'Game of Notes: take your musical throne'
+Project name: 'Game of Notes: take your musical throne'.
+
 Quiz can consist of 1 - 5 rounds.
+
 You have 40 seconds to answer the question.
+
 ## Installation
 
 ```shell

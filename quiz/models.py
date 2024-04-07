@@ -36,15 +36,16 @@ class Rounds(models.Model):
     round_description = models.TextField()
 
     def __str__(self):
-        return self.round_name
+        return f'{self.quiz.quiz_name} - {self.round_name}'
 
 class Questions(models.Model):
     quiz = models.ForeignKey(Quizzes, related_name='quizzes', on_delete=models.CASCADE)
     round = models.ForeignKey(Rounds, related_name='rounds', on_delete=models.CASCADE)
     question_text = models.TextField()
+    title = models.CharField(max_length=50)
 
     def __str__(self):
-        return self.question_text
+        return f'{self.round} - {self.title}'
 
 class Attachments(models.Model):
     class TypesOfAttachments(models.TextChoices):
@@ -65,7 +66,7 @@ class Answers(models.Model):
     valid_answer = models.BooleanField(default=False)
 
     def __str__(self):
-        return self.answer
+        return f'{self.question} - {self.answer} - {self.valid_answer}'
 
 class Results(models.Model):
     user = models.ForeignKey(Profile, on_delete=models.CASCADE)
