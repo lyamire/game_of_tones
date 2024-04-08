@@ -1,0 +1,4 @@
+{#{% if user.is_authenticated %}  {% csrf_token %} Hi, {{ request.user.username | title }} {Профиль} {Корзина}   {% else %} {Login} {Register} {% endif %}#}
+{#{% block breadcrumbs %}#}
+{#  * {Главная} {% endblock %}#}
+{% block body %} {% endblock %}

@@ -1,0 +1,45 @@
+{% extends 'quiz/base.html' %}
+
+{% block title %}  {% endblock %}
+
+{% block body %}
+    <div>
+        <p>
+            Добро пожаловать в Game of Tones, где вы сможете занять свой музыкальный трон!<br>
+            Погрузитесь в мир, где царит музыка, и бросьте вызов себе, чтобы раскрыть секреты мелодии и ритма.<br>
+            Вступай в наше сообщество страстных любителей музыки и прояви свои знания.<br>
+            Готовы ли вы взойти на свое законное место на музыкальном троне?<br>
+            Присоединяйтесь к Game of Tones и начните свое путешествие сегодня!
+        </p>
+    </div>
+    <div>
+        <h3>Правила:</h3>
+        <ol>
+            <li>Каждый квиз может содержать 1 - 5 раундов. Каждый тур может содержать свою специфику и(или) тематику.</li>
+            <li>Каждый раунд содержит 10 вопросов.</li>
+            <li>На каждый ответ даётся 40 секунд.</li>
+            <li>За использование шазама - минус в карму! Давайте играть честно.</li>
+        </ol>
+    </div>
+    <div>
+        <ul>
+            {% for quiz in quizzes|dictsort:'quiz_name' %}
+                <li><a href="{% url 'quiz_details' quiz.id %}">{{ quiz.quiz_name }}</a></li>
+            {% endfor %}
+        </ul>
+    </div>
+{% endblock %}
+
+{#    <div class="header_index"><a href="{% url 'shop:products' %}">Products</a></div>#}
+{#    <div class="row">#}
+{#        {% for category in categories|dictsort:'name' %}#}
+{#            <div class="column">#}
+{#                <h2><a href="{% url 'shop:category' category.id %}">{{ category.name }}</a></h2>#}
+{#                <ul>#}
+{#                    {% for product in category.products.all|dictsort:'name' %}#}
+{#                        <li><a href="{% url 'shop:detail' product.id %}">{{ product.name }}</a></li>#}
+{#                    {% endfor %}#}
+{#                </ul>#}
+{#            </div>#}
+{#        {% endfor %}#}
+{#    </div>#}
