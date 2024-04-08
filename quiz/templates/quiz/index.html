@@ -5,11 +5,11 @@
 {% block body %}
     <div>
         <p>
-            Добро пожаловать в Game of Tones, где вы сможете занять свой музыкальный трон!<br>
+            Добро пожаловать в Game of Notes, где вы сможете занять свой музыкальный трон!<br>
             Погрузитесь в мир, где царит музыка, и бросьте вызов себе, чтобы раскрыть секреты мелодии и ритма.<br>
             Вступай в наше сообщество страстных любителей музыки и прояви свои знания.<br>
             Готовы ли вы взойти на свое законное место на музыкальном троне?<br>
-            Присоединяйтесь к Game of Tones и начните свое путешествие сегодня!
+            Присоединяйтесь к Game of Notes и начните свое путешествие сегодня!
         </p>
     </div>
     <div>
@@ -22,10 +22,14 @@
         </ol>
     </div>
     <div>
-        <ul>
-            {% for quiz in quizzes|dictsort:'name' %}
-                <li><a href="{% url 'quiz_details' quiz.id %}">{{ quiz.name }}</a></li>
-            {% endfor %}
-        </ul>
+        {% if quizzes %}
+            <ul>
+                {% for quiz in quizzes|dictsort:'name' %}
+                    <li><a href="{% url 'quiz_details' quiz.id %}">{{ quiz.name }}</a></li>
+                {% endfor %}
+            </ul>
+        {% else %}
+            <p>No quizzes specified</p>>
+        {% endif %}
     </div>
 {% endblock %}

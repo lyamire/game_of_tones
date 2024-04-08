@@ -34,12 +34,12 @@ class Quiz(models.Model):
         return self.name
 
 class Round(models.Model):
-    quiz = models.ForeignKey(Quiz, related_name='quiz', on_delete=models.CASCADE)
-    round_name = models.CharField(max_length=50)
-    round_description = models.TextField()
+    quiz = models.ForeignKey(Quiz, related_name='rounds', on_delete=models.CASCADE)
+    name = models.CharField(max_length=50)
+    description = models.TextField()
 
     def __str__(self):
-        return f'{self.quiz.name} - {self.round_name}'
+        return f'{self.quiz.name} - {self.name}'
 
 class Question(models.Model):
     round = models.ForeignKey(Round, related_name='round', on_delete=models.CASCADE)

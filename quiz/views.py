@@ -14,5 +14,6 @@ def quiz_details(request, quiz_id: int):
     context = {
         'quiz': quiz,
         'genres': quiz.genres.all(),
+        'rounds_count': quiz.rounds.count()
     }
     return render(request, 'quiz/quiz_details.html', context)
