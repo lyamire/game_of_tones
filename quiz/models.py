@@ -1,3 +1,5 @@
+from typing import List
+
 from django.contrib import admin
 from django.contrib.auth.models import User
 from django.utils.translation import gettext_lazy as _
@@ -5,34 +7,31 @@ from django.db import models
 
 
 # Create your models here.
-class Profile(models.Model):
+class Profiles(models.Model):
     user: User = models.OneToOneField(User, on_delete=models.CASCADE)
     nickname = models.CharField(max_length=20)
 
     def __str__(self):
         return str(self.user)
 
-
 class Genres(models.Model):
-    genre = models.CharField(max_length=50)
+    name = models.CharField(max_length=50)
 
     def __str__(self):
-        return self.genre
-
+        return self.name
 
 class Quizzes(models.Model):
     class Level(models.TextChoices):
         EASY = "Easy", _('Easy')
         HARD = "Hard", _('Hard')
 
-    quiz_name = models.CharField(max_length=100)
-    quiz_description = models.TextField()
-    genre = models.ManyToManyField(Genres, related_name='genres')
+    name = models.CharField(max_length=100)
+    description = models.TextField()
+    genres = models.ManyToManyField(Genres, related_name='genres')
     level = models.CharField(max_length=4, choices=Level.choices, default=Level.EASY)
 
     def __str__(self):
-        return self.quiz_name
-
+        return self.name
 
 class Rounds(models.Model):
     quiz = models.ForeignKey(Quizzes, related_name='quiz', on_delete=models.CASCADE)
@@ -40,12 +39,11 @@ class Rounds(models.Model):
     round_description = models.TextField()
 
     def __str__(self):
-        return f'{self.quiz.quiz_name} - {self.round_name}'
-
+        return f'{self.quiz.name} - {self.round_name}'
 
 class Questions(models.Model):
     round = models.ForeignKey(Rounds, related_name='round', on_delete=models.CASCADE)
-    question_text = models.TextField()
+    text = models.TextField()
 
     def __str__(self):
         return f'{self.round}'
@@ -54,11 +52,10 @@ class Questions(models.Model):
         description='Answer the question'
     )
     def get_valid_answer(self):
-        answers: Answers = self.answers.filter(valid_answer=True)
+        answers: List[Answers] = self.answers.filter(valid_answer=True)
         if answers is None:
             return 'No answer'
         return f'{answers[0].answer}'
-
 
 class Attachments(models.Model):
     class TypesOfAttachments(models.TextChoices):
@@ -84,18 +81,17 @@ class Answers(models.Model):
 
 
 class Results(models.Model):
-    user = models.ForeignKey(Profile, on_delete=models.CASCADE)
+    user = models.ForeignKey(Profiles, on_delete=models.CASCADE)
     quiz = models.ForeignKey(Quizzes, on_delete=models.CASCADE)
     result = models.IntegerField(default=0)
 
     def __str__(self):
         return f'{str(self.user.nickname)} - {self.quiz} - {self.result}'
 
-
 class Battles(models.Model):
     quiz = models.ForeignKey(Quizzes, on_delete=models.CASCADE)
-    first_user = models.ForeignKey(Profile, related_name='first_user', on_delete=models.CASCADE)
-    second_user = models.ForeignKey(Profile, related_name='second_user', on_delete=models.CASCADE)
+    first_user = models.ForeignKey(Profiles, related_name='first_user', on_delete=models.CASCADE)
+    second_user = models.ForeignKey(Profiles, related_name='second_user', on_delete=models.CASCADE)
 
     def __str__(self):
-        return f'Battle between {self.first_user} and {self.second_user} in {self.quiz.quiz_name} '
+        return f'Battle between {self.first_user} and {self.second_user} in {self.quiz.name} '

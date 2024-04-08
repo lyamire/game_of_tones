@@ -1,8 +1,8 @@
 from django.contrib import admin
-from .models import Profile, Genres, Quizzes, Rounds, Questions, Attachments, Answers, Results, Battles
+from .models import Profiles, Genres, Quizzes, Rounds, Questions, Attachments, Answers, Results, Battles
 # Register your models here.
 
-admin.site.register(Profile)
+admin.site.register(Profiles)
 admin.site.register(Genres)
 # admin.site.register(Rounds)
 # admin.site.register(Attachments)
@@ -15,22 +15,23 @@ class AttachmentInline(admin.TabularInline):
     verbose_name = "Attachment"
     extra = 0
 
-class AnswersInline(admin.TabularInline):
+class AnswerInline(admin.TabularInline):
     model = Answers
     verbose_name = "Answers"
     extra = 1
+
 @admin.register(Questions)
-class QuestionsAdmin(admin.ModelAdmin):
+class QuestionAdmin(admin.ModelAdmin):
     list_filter = ['round']
     list_display = ["get_valid_answer", 'round']
-    inlines = [AttachmentInline, AnswersInline]
+    inlines = [AttachmentInline, AnswerInline]
 
-class RoundsInline(admin.TabularInline):
+class RoundInline(admin.TabularInline):
     model = Rounds
     verbose_name = "Rounds"
     extra = 1
 
 @admin.register(Quizzes)
-class QuizzesAdmin(admin.ModelAdmin):
-    list_display = ["quiz_name", 'level']
-    inlines = [RoundsInline]
+class QuizAdmin(admin.ModelAdmin):
+    list_display = ["name", 'level']
+    inlines = [RoundInline]

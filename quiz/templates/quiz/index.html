@@ -23,23 +23,9 @@
     </div>
     <div>
         <ul>
-            {% for quiz in quizzes|dictsort:'quiz_name' %}
-                <li><a href="{% url 'quiz_details' quiz.id %}">{{ quiz.quiz_name }}</a></li>
+            {% for quiz in quizzes|dictsort:'name' %}
+                <li><a href="{% url 'quiz_details' quiz.id %}">{{ quiz.name }}</a></li>
             {% endfor %}
         </ul>
     </div>
 {% endblock %}
-
-{#    <div class="header_index"><a href="{% url 'shop:products' %}">Products</a></div>#}
-{#    <div class="row">#}
-{#        {% for category in categories|dictsort:'name' %}#}
-{#            <div class="column">#}
-{#                <h2><a href="{% url 'shop:category' category.id %}">{{ category.name }}</a></h2>#}
-{#                <ul>#}
-{#                    {% for product in category.products.all|dictsort:'name' %}#}
-{#                        <li><a href="{% url 'shop:detail' product.id %}">{{ product.name }}</a></li>#}
-{#                    {% endfor %}#}
-{#                </ul>#}
-{#            </div>#}
-{#        {% endfor %}#}
-{#    </div>#}

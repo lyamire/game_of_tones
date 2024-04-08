@@ -1,0 +1,17 @@
+{% extends 'quiz/base.html' %}
+
+{% block title %}  {% endblock %}
+
+{% block body %}
+    <h1>{{ quiz.name }}</h1>
+    <p>{{ quiz.description }}</p>
+    {% if quiz.genres %}
+        <ul>
+        {% for genre in genres %}
+            <li>{{ genre }}</li>
+        {% endfor %}
+        </ul>
+    {% else %}
+        <p>No genres specified</p>>
+    {% endif %}
+{% endblock %}
