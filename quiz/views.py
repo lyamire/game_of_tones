@@ -21,13 +21,25 @@ def quiz_details(request, quiz_id: int):
 def new_game(request, quiz_id: int):
     quiz = get_object_or_404(Quiz, id=quiz_id)
     game = Game.objects.create(user=request.user, quiz=quiz)
-    return redirect('game', game.id)
+    return redirect('round_details', game.id, quiz.rounds.first().id)
 
-def game(request, game_id: int):
+def round_details(request, game_id: int, round_id: int):
     game = get_object_or_404(Game, id=game_id)
+    round_info = game.quiz.rounds.filter(id=round_id).first()
+    context = {
+        'game': game,
+        'round': round_info
+    }
+    return render(request, 'quiz/round_details.html', context)
+
+def question(request, game_id: int, round_id: int, question_id: int):
+    game = get_object_or_404(Game, id=game_id)
+    round_info: Round = game.quiz.rounds.filter(id=round_id).first()
+    # round_info.round_q
+    # round_info.quizzes
     context = {
         'game': game,
         'quiz': game.quiz,
-        'round': game.round
+        'round': round_info
     }
-    return render(request, 'quiz/game.html', context)
+    return render(request, 'quiz/question.html', context)

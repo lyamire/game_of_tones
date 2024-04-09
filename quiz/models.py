@@ -35,15 +35,15 @@ class Quiz(models.Model):
         return self.name
 
 class Round(models.Model):
-    quiz = models.ForeignKey(Quiz, related_name='rounds', on_delete=models.CASCADE)
+    quizzes = models.ForeignKey(Quiz, related_name='rounds', on_delete=models.CASCADE)
     name = models.CharField(max_length=50)
     description = models.TextField()
 
     def __str__(self):
-        return f'{self.quiz.name} - {self.name}'
+        return f'{self.quizzes.name} - {self.name}'
 
 class Question(models.Model):
-    round = models.ForeignKey(Round, related_name='round', on_delete=models.CASCADE)
+    round = models.ForeignKey(Round, related_name='round_q', on_delete=models.CASCADE)
     text = models.TextField()
 
     def __str__(self):
@@ -86,8 +86,8 @@ class Game(models.Model):
 
     user = models.ForeignKey(User, related_name='games', on_delete=models.CASCADE)
     quiz = models.ForeignKey(Quiz, related_name='games', on_delete=models.CASCADE)
-    round = models.ForeignKey(Round, related_name='rounds', on_delete=models.CASCADE, default=1)
-    question_number = models.PositiveSmallIntegerField(default=1)
+    round_num = models.ForeignKey(Round, related_name='rounds', on_delete=models.CASCADE, default=1)
+    question_number = models.PositiveSmallIntegerField(default=0)
     start_time = models.DateTimeField(default=datetime.datetime.now(datetime.timezone.utc))
     status = models.CharField(max_length=20, choices=Status.choices, default=Status.ACTIVE)
     score = models.PositiveSmallIntegerField(default=0)

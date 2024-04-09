@@ -6,8 +6,8 @@
     <h1>{{ quiz.name }}</h1>
     <h2>Раунд: {{ round.id }} - {{ round.name }}</h2>
     <p>{{ round.description }}</p>
-{#    <form action="{% url '' quiz.id %}" method="post">#}
-{#            {% csrf_token %}#}
+    <form action="{% url 'question' game.id round.id 1 %}" method="get">
+            {% csrf_token %}
             <input type="submit" value="Начать" class="btn btn-danger"/>
-{#    </form>#}
+    </form>
 {% endblock %}
