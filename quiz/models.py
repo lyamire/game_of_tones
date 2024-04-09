@@ -1,3 +1,4 @@
+import datetime
 from typing import List
 
 from django.contrib import admin
@@ -78,6 +79,21 @@ class Answer(models.Model):
     def __str__(self):
         return f'{self.question} - {self.answer} - {self.valid_answer}'
 
+class Game(models.Model):
+    class Status(models.TextChoices):
+        ACTIVE = "ACTIVE", _('Active')
+        FINISHED = "FINISHED", _('Finished')
+
+    user = models.ForeignKey(User, related_name='games', on_delete=models.CASCADE)
+    quiz = models.ForeignKey(Quiz, related_name='games', on_delete=models.CASCADE)
+    round = models.ForeignKey(Round, related_name='rounds', on_delete=models.CASCADE, default=1)
+    question_number = models.PositiveSmallIntegerField(default=1)
+    start_time = models.DateTimeField(default=datetime.datetime.now(datetime.timezone.utc))
+    status = models.CharField(max_length=20, choices=Status.choices, default=Status.ACTIVE)
+    score = models.PositiveSmallIntegerField(default=0)
+
+    def __str__(self):
+        return f'{self.user} - {self.quiz.name} - {self.score}'
 class Result(models.Model):
     user = models.ForeignKey(Profile, on_delete=models.CASCADE)
     quiz = models.ForeignKey(Quiz, on_delete=models.CASCADE)
