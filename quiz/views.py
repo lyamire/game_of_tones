@@ -32,14 +32,20 @@ def round_details(request, game_id: int, round_id: int):
     }
     return render(request, 'quiz/round_details.html', context)
 
-def question(request, game_id: int, round_id: int, question_id: int):
-    game = get_object_or_404(Game, id=game_id)
-    round_info: Round = game.quiz.rounds.filter(id=round_id).first()
-    # round_info.round_q
-    # round_info.quizzes
-    context = {
-        'game': game,
-        'quiz': game.quiz,
-        'round': round_info
-    }
-    return render(request, 'quiz/question.html', context)
+def question_details(request, game_id: int, round_id: int, question_id: int):
+    if request.method == 'GET':
+        game = get_object_or_404(Game, id=game_id)
+        round_info: Round = game.quiz.rounds.filter(id=round_id).first()
+        current_question: Question = get_object_or_404(Question, id=question_id)
+        # round_info.round_q
+        # round_info.quizzes
+        context = {
+            'game': game,
+            'quiz': game.quiz,
+            'round': round_info,
+            'question': current_question,
+            'answers': current_question.answers.all()
+        }
+        return render(request, 'quiz/question_detail.html', context)
+    if request.method == 'POST':
+        pass
