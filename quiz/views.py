@@ -33,10 +33,10 @@ def round_details(request, game_id: int, round_id: int):
     return render(request, 'quiz/round_details.html', context)
 
 def question_details(request, game_id: int, round_id: int, question_id: int):
+    game = get_object_or_404(Game, id=game_id)
+    round_info: Round = game.quiz.rounds.filter(id=round_id).first()
+    current_question: Question = get_object_or_404(Question, id=question_id)
     if request.method == 'GET':
-        game = get_object_or_404(Game, id=game_id)
-        round_info: Round = game.quiz.rounds.filter(id=round_id).first()
-        current_question: Question = get_object_or_404(Question, id=question_id)
         # round_info.round_q
         # round_info.quizzes
         context = {
@@ -48,4 +48,12 @@ def question_details(request, game_id: int, round_id: int, question_id: int):
         }
         return render(request, 'quiz/question_details.html', context)
     if request.method == 'POST':
-        pass
+        answer = request.POST.get("answer", "")
+        right_answer: Answer = current_question.answers.filter(valid_answer=True).first()
+        if right_answer.id == answer:
+            game.score += 1
+
+        # TODO get next question or round
+        next_question_id = question_id + 1
+
+        return redirect('question', game.id, round_id, next_question_id)
