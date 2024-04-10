@@ -46,6 +46,6 @@ def question_details(request, game_id: int, round_id: int, question_id: int):
             'question': current_question,
             'answers': current_question.answers.all()
         }
-        return render(request, 'quiz/question_detail.html', context)
+        return render(request, 'quiz/question_details.html', context)
     if request.method == 'POST':
         pass

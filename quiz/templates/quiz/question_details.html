@@ -1,0 +1,22 @@
+{% extends 'quiz/base.html' %}
+
+{% block title %}  {% endblock %}
+
+{% block body %}
+    <h1>{{ quiz.name }}</h1>
+    <h2>Вопрос: {{ question.id }} - {{ question.text }}</h2>
+    <fieldset>
+        <div style="display: flex; flex-direction: column;">
+        {% for answer in answers %}
+            <span>
+                <input type="radio" id="answer-{{ answer.id }}" name="answer" />
+                <label for="answer-{{ answer.id }}">{{ answer.answer }}</label>
+            </span>
+        {% endfor %}
+        </div>
+    </fieldset>
+    <form action="{% url 'question' game.id round.id question.id %}" method="post">
+        {% csrf_token %}
+        <input type="submit" value="Ответить" class="btn btn-danger"/>
+    </form>
+{% endblock %}
