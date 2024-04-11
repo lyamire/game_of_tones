@@ -1,3 +1,4 @@
+from django.http import FileResponse, HttpResponse
 from django.shortcuts import get_object_or_404, redirect, render
 
 import quiz
@@ -41,24 +42,26 @@ def question_details(request, game_id: int, round_id: int, question_id: int):
     round_info: Round = game.quiz.rounds.filter(id=round_id).first()
     current_question: Question = get_object_or_404(Question, id=question_id)
     if request.method == 'GET':
-        # round_info.round_q
-        # round_info.quizzes
         context = {
             'game': game,
             'quiz': game.quiz,
             'round': round_info,
             'question': current_question,
-            'answers': current_question.answers.all()
+            'answers': current_question.answers.all(),
+            'file': current_question.attachments.first()
         }
         return render(request, 'quiz/question_details.html', context)
     if request.method == 'POST':
         answer = request.POST.get("answer", "")
         right_answer: Answer = current_question.answers.filter(valid_answer=True).first()
-        if right_answer.id == answer:
+        if right_answer.answer == answer:
             game.score += 1
+            game.save()
 
         next_question: Question = round_info.get_question_after(question_num=current_question.number)
         if next_question:
+            game.question_number = next_question.number
+            game.save()
             return redirect('question', game.id, round_id, next_question.id)
         else:
             next_round: Round = game.quiz.get_round_after(round_info.number)
@@ -67,3 +70,7 @@ def question_details(request, game_id: int, round_id: int, question_id: int):
 
         # TODO
         return redirect('result', game.id)
+
+def download_file(request, file_id):
+    uploaded_file = Attachment.objects.get(pk=file_id)
+    return FileResponse(uploaded_file.file_path.file)

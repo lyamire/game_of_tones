@@ -4,19 +4,34 @@
 
 {% block body %}
     <h1>{{ quiz.name }}</h1>
-    <h2>Вопрос: {{ question.number }} - {{ question.text }}</h2>
+    <h2>Раунд {{ round.number }} - {{ round.name }}</h2>
+    <h2>Вопрос № {{ question.number }}: {{ question.text }}</h2>
+    {% if file %}
+        {% if file.attachment_type == 'AUD' %}
+        <audio controls src="{% url 'file' file.id %}"></audio>
+        {% else %}
+        <img src="{% url 'file' file.id %}" alt="question" />
+        {% endif %}
+    {% endif %}
     <form action="{% url 'question' game.id round.id question.id %}" method="post">
         {% csrf_token %}
+        {% if answers and answers|length > 1 %}
         <fieldset>
             <div style="display: flex; flex-direction: column;">
             {% for answer in answers %}
                 <span>
-                    <input type="radio" id="answer-{{ answer.id }}" name="answer" value="{{ answer.id }}" />
+                    <input type="radio" id="answer-{{ answer.id }}" name="answer" value="{{ answer.answer }}" />
                     <label for="answer-{{ answer.id }}">{{ answer.answer }}</label>
                 </span>
             {% endfor %}
             </div>
         </fieldset>
+        {% else %}
+            <span>
+                <label for="answer">Ваш ответ: </label>
+                <input type="text" id="answer" name="answer" />
+            </span>
+        {% endif %}
         <input type="submit" value="Ответить" class="btn btn-danger"/>
     </form>
 {% endblock %}
