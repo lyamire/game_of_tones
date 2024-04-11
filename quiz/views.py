@@ -1,4 +1,6 @@
 from django.shortcuts import get_object_or_404, redirect, render
+
+import quiz
 from quiz.models import *
 # Create your views here.
 
@@ -53,7 +55,13 @@ def question_details(request, game_id: int, round_id: int, question_id: int):
         if right_answer.id == answer:
             game.score += 1
 
-        # TODO get next question or round
-        next_question_id = question_id + 1
+        next_question: Question = round_info.get_question_after(question_id=question_id)
+        if next_question:
+            return redirect('question', game.id, round_id, next_question.id)
+        else:
+            next_round: Round = game.quiz.get_round_after(round_id)
+            if next_round:
+                return redirect('round_details', game.id, next_round.id)
 
-        return redirect('question', game.id, round_id, next_question_id)
+        # TODO
+        return redirect('result', game.id)
