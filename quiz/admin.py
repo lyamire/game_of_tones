@@ -35,3 +35,12 @@ class RoundInline(admin.TabularInline):
 class QuizAdmin(admin.ModelAdmin):
     list_display = ["name", 'level']
     inlines = [RoundInline]
+
+class QuestionInline(admin.TabularInline):
+    model = Question
+    verbose_name = "Questions"
+    extra = 1
+
+@admin.register(Round)
+class RoundAdmin(admin.ModelAdmin):
+    inlines = [QuestionInline]

@@ -4,7 +4,7 @@
 
 {% block body %}
     <h1>{{ quiz.name }}</h1>
-    <h2>Вопрос: {{ question.id }} - {{ question.text }}</h2>
+    <h2>Вопрос: {{ question.number }} - {{ question.text }}</h2>
     <form action="{% url 'question' game.id round.id question.id %}" method="post">
         {% csrf_token %}
         <fieldset>

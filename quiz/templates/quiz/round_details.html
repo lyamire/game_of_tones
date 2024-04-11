@@ -4,9 +4,9 @@
 
 {% block body %}
     <h1>{{ quiz.name }}</h1>
-    <h2>Раунд: {{ round.id }} - {{ round.name }}</h2>
+    <h2>Раунд: {{ round.number }} - {{ round.name }}</h2>
     <p>{{ round.description }}</p>
-    <form action="{% url 'question' game.id round.id 1 %}" method="get">
+    <form action="{% url 'question' game.id round.id first_question_id %}" method="get">
             {% csrf_token %}
             <input type="submit" value="Начать" class="btn btn-danger"/>
     </form>

@@ -27,10 +27,12 @@ def new_game(request, quiz_id: int):
 
 def round_details(request, game_id: int, round_id: int):
     game = get_object_or_404(Game, id=game_id)
-    round_info = game.quiz.rounds.filter(id=round_id).first()
+    round_info: Round = game.quiz.rounds.filter(id=round_id).first()
+    first_question: Question = round_info.questions.order_by('number').first()
     context = {
         'game': game,
-        'round': round_info
+        'round': round_info,
+        'first_question_id': first_question.id,
     }
     return render(request, 'quiz/round_details.html', context)
 
@@ -55,11 +57,11 @@ def question_details(request, game_id: int, round_id: int, question_id: int):
         if right_answer.id == answer:
             game.score += 1
 
-        next_question: Question = round_info.get_question_after(question_id=question_id)
+        next_question: Question = round_info.get_question_after(question_num=current_question.number)
         if next_question:
             return redirect('question', game.id, round_id, next_question.id)
         else:
-            next_round: Round = game.quiz.get_round_after(round_id)
+            next_round: Round = game.quiz.get_round_after(round_info.number)
             if next_round:
                 return redirect('round_details', game.id, next_round.id)
 

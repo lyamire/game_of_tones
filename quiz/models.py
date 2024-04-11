@@ -34,26 +34,27 @@ class Quiz(models.Model):
     def __str__(self):
         return self.name
 
-    def get_round_after(self, round_id):
-        return self.rounds.order_by('id').filter(id__gt=round_id).first()
+    def get_round_after(self, round_num):
+        return self.rounds.order_by('number').filter(number__gt=round_num).first()
 
 
 class Round(models.Model):
     quizzes = models.ForeignKey(Quiz, related_name='rounds', on_delete=models.CASCADE)
     name = models.CharField(max_length=50)
     description = models.TextField()
-    # number = models.
+    number = models.IntegerField(default=0)
 
     def __str__(self):
         return f'{self.quizzes.name} - {self.name}'
 
-    def get_question_after(self, question_id):
-        return self.questions.order_by('id').filter(id__gt=question_id).first()
+    def get_question_after(self, question_num):
+        return self.questions.order_by('number').filter(number__gt=question_num).first()
 
 
 class Question(models.Model):
     round = models.ForeignKey(Round, related_name='questions', on_delete=models.CASCADE)
     text = models.TextField()
+    number = models.IntegerField(default=0)
 
     def __str__(self):
         return f'{self.round}'
