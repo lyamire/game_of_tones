@@ -69,7 +69,9 @@ def question_details(request, game_id: int, round_id: int, question_id: int):
             if next_round:
                 return redirect('round_details', game.id, next_round.id)
 
-        # TODO change game.status
+        game.status = Game.Status.FINISHED
+        game.save()
+
         return redirect('result_details', game.id)
 
 def download_file(request, file_id):
@@ -91,3 +93,12 @@ def result_details(request, game_id: int):
         'max_score': questions_count
     }
     return render(request, 'quiz/result_details.html', context)
+
+
+def genres(request):
+    context = {
+        'genres': Genre.objects.all()
+    }
+
+    Genre.objects.prefetch_related(Quiz.__name__)
+    return render(request, 'quiz/genres.html', context)

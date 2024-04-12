@@ -28,7 +28,7 @@ class Quiz(models.Model):
 
     name = models.CharField(max_length=100)
     description = models.TextField()
-    genres = models.ManyToManyField(Genre, related_name='genres')
+    genres = models.ManyToManyField(Genre, related_name='quizzes')
     level = models.CharField(max_length=4, choices=Level.choices, default=Level.EASY)
 
     def __str__(self):
