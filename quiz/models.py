@@ -104,20 +104,3 @@ class Game(models.Model):
 
     def __str__(self):
         return f'{self.user} - {self.quiz.name} - {self.score}'
-
-
-class Result(models.Model):
-    user = models.ForeignKey(Profile, on_delete=models.CASCADE)
-    quiz = models.ForeignKey(Quiz, on_delete=models.CASCADE)
-    result = models.IntegerField(default=0)
-
-    def __str__(self):
-        return f'{str(self.user.nickname)} - {self.quiz} - {self.result}'
-
-class Battle(models.Model):
-    quiz = models.ForeignKey(Quiz, on_delete=models.CASCADE)
-    first_user = models.ForeignKey(Profile, related_name='first_user', on_delete=models.CASCADE)
-    second_user = models.ForeignKey(Profile, related_name='second_user', on_delete=models.CASCADE)
-
-    def __str__(self):
-        return f'Battle between {self.first_user} and {self.second_user} in {self.quiz.name} '

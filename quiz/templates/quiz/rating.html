@@ -1,0 +1,12 @@
+{% extends 'quiz/base.html' %}
+
+{% block title %}  {% endblock %}
+
+{% block body %}
+    <h2>{{ quiz.name }}</h2>
+    <ol>
+        {% for game in games %}
+            <li>{{ game.user.profile.nickname }} - {{ game.score }}</li>
+        {% endfor %}
+    </ol>
+{% endblock %}

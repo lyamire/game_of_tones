@@ -5,7 +5,7 @@
 {% block body %}
     <h1>{{ quiz.name }}</h1>
     <h2>Вы набрали: {{ score }} баллов из {{ max_score }}</h2>
-
+    <h3><a href="{% url 'rating' quiz.id %}">Рейтинг</a></h3>
     <form action="{% url 'index' %}">
       <button type="submit">Вернуться на главную страницу</button>
     </form>

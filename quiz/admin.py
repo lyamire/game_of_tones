@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Profile, Genre, Quiz, Round, Question, Attachment, Answer, Result, Battle
+from .models import Profile, Genre, Quiz, Round, Question, Attachment, Answer
 # Register your models here.
 
 admin.site.register(Profile)

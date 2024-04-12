@@ -2,6 +2,7 @@ from django.http import FileResponse, HttpResponse
 from django.shortcuts import get_object_or_404, redirect, render
 
 import quiz
+import quiz.models
 from quiz.models import *
 # Create your views here.
 
@@ -99,6 +100,22 @@ def genres(request):
     context = {
         'genres': Genre.objects.all()
     }
-
     Genre.objects.prefetch_related(Quiz.__name__)
     return render(request, 'quiz/genres.html', context)
+
+
+def rating(request, quiz_id: int):
+    quiz = Quiz.objects.get(id=quiz_id)
+    games = quiz.games.order_by('-score').all()
+
+    scores = {}
+    for game in games:
+        if game.user.id not in scores:
+            scores[game.user.id] = game
+
+    context = {
+        'games': scores.values(),
+        'quiz': quiz,
+    }
+
+    return render(request, 'quiz/rating.html', context)

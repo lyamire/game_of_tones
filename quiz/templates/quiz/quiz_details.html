@@ -5,6 +5,7 @@
 {% block body %}
     <h1>{{ quiz.name }}</h1>
     <p>{{ quiz.description }}</p>
+    <h3><a href="{% url 'rating' quiz.id %}">Рейтинг</a></h3>
     {% if quiz.genres %}
         <ul>
         {% for genre in genres %}
