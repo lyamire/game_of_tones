@@ -104,6 +104,8 @@ class Game(models.Model):
 
     def __str__(self):
         return f'{self.user} - {self.quiz.name} - {self.score}'
+
+
 class Result(models.Model):
     user = models.ForeignKey(Profile, on_delete=models.CASCADE)
     quiz = models.ForeignKey(Quiz, on_delete=models.CASCADE)

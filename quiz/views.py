@@ -32,6 +32,7 @@ def round_details(request, game_id: int, round_id: int):
     first_question: Question = round_info.questions.order_by('number').first()
     context = {
         'game': game,
+        'quiz': game.quiz,
         'round': round_info,
         'first_question_id': first_question.id,
     }
@@ -68,9 +69,25 @@ def question_details(request, game_id: int, round_id: int, question_id: int):
             if next_round:
                 return redirect('round_details', game.id, next_round.id)
 
-        # TODO
-        return redirect('result', game.id)
+        # TODO change game.status
+        return redirect('result_details', game.id)
 
 def download_file(request, file_id):
     uploaded_file = Attachment.objects.get(pk=file_id)
     return FileResponse(uploaded_file.file_path.file)
+
+
+def result_details(request, game_id: int):
+    game = get_object_or_404(Game, id=game_id)
+
+    questions_count = 0
+    for round in game.quiz.rounds.all():
+        questions_count += round.questions.count()
+
+    context = {
+        'game': game,
+        'quiz': game.quiz,
+        'score': game.score,
+        'max_score': questions_count
+    }
+    return render(request, 'quiz/result_details.html', context)
