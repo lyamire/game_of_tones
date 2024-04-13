@@ -1,4 +1,25 @@
-{#{% if user.is_authenticated %}  {% csrf_token %} Hi, {{ request.user.username | title }} {Профиль} {Корзина}   {% else %} {Login} {Register} {% endif %}#}
-{#{% block breadcrumbs %}#}
-{#  * {Главная} {% endblock %}#}
-{% block body %} {% endblock %}
+<!doctype html>
+<html lang="en-US">
+<head>
+    <meta charset="utf-8"/>
+    <title>
+        {% block title %} Game Of Notes App {% endblock %}
+    </title>
+</head>
+<body>
+    <div class='top'></div>
+    {% if user.is_authenticated %}
+        <form action="{% url 'accounts:logout' %}?next={{ request.path }}" method="post">
+            {% csrf_token %}
+            <span>Hi, {{ request.user.username | title }}</span>
+{#            <span><a href="{% url 'accounts:profile' %}">Профиль</a></span>#}
+            <input type="submit" value="Logout" class="btn btn-danger"/>
+        </form>
+    {% else %}
+        <a href="{% url 'accounts:login' %}?next={{ request.path }}" class="btn btn-info">Login</a>
+        <a href="{% url 'accounts:register' %}?next={{ request.path }}" class="btn btn-info">Register</a>
+    {% endif %}
+    {% block body %}
+    {% endblock %}
+</body>
+</html>

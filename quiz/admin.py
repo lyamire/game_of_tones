@@ -1,14 +1,12 @@
 from django.contrib import admin
-from .models import Profile, Genre, Quiz, Round, Question, Attachment, Answer
+from .models import Genre, Quiz, Round, Question, Attachment, Answer
+
 # Register your models here.
 
-admin.site.register(Profile)
 admin.site.register(Genre)
 # admin.site.register(Rounds)
 # admin.site.register(Attachments)
 # admin.site.register(Answers)
-# admin.site.register(Results)
-# admin.site.register(Battles)
 
 class AttachmentInline(admin.TabularInline):
     model = Attachment

@@ -1,0 +1,14 @@
+{% extends base_template|default:'quiz/base.html' %}
+{% block body %}
+    {% if form.errors %}
+        <p>Your username and password didn't match. Please try again.</p>
+    {% endif %}
+
+    <form method="post" action="{% url 'accounts:login' %}">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <input type="submit" value="Login">
+        <input type="hidden" name="next" value="{{ next }}">
+    </form>
+{% endblock %}
+

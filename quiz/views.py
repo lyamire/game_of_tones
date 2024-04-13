@@ -1,10 +1,7 @@
 from django.http import FileResponse, HttpResponse
 from django.shortcuts import get_object_or_404, redirect, render
 
-import quiz
-import quiz.models
 from quiz.models import *
-# Create your views here.
 
 def index(request):
     context = {
