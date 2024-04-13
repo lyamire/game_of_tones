@@ -1,0 +1,33 @@
+{% extends 'quiz/base.html' %}
+
+{% block title %} Profile {% endblock %}
+
+{% block body %}
+    <h3>Личные данные</h3>
+    <form action="{% url 'accounts:profile' %}" method="post">
+        {% csrf_token %}
+        <div style="display: flex; flex-direction: column;">
+            <label>
+                First name
+                <input type="text" name="first_name" value="{{ profile.user.first_name }}" />
+            </label>
+            <label>
+                Last name
+                <input type="text" name="last_name" value="{{ profile.user.last_name }}" />
+            </label>
+            <label>
+                Email
+                <input type="email" name="email" value="{{ profile.user.email }}" />
+            </label>
+        </div>
+        <input type="submit" value="change" class="btn btn-danger"/>
+    </form>
+        <div style="display: flex; flex-direction: column">
+            <h3>Пройденный квизы:</h3>
+            <ul>
+                {% for game in games %}
+                    <li><a href="{% url 'quiz_details' game.quiz.id %}">{{ game.quiz.name }}</a> - {{ game.score }} балло</li>
+                {% endfor %}
+            </ul>
+        </div>
+{% endblock %}

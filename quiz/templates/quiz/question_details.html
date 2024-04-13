@@ -10,7 +10,7 @@
         {% if file.attachment_type == 'AUD' %}
         <audio controls src="{% url 'file' file.id %}"></audio>
         {% else %}
-        <img src="{% url 'file' file.id %}" alt="question" />
+        <img src="{% url 'file' file.id %}" alt="question" style="max-width: 300px; max-height: 300px;"/>
         {% endif %}
     {% endif %}
     <form action="{% url 'question' game.id round.id question.id %}" method="post">
@@ -20,7 +20,7 @@
             <div style="display: flex; flex-direction: column;">
             {% for answer in answers %}
                 <span>
-                    <input type="radio" id="answer-{{ answer.id }}" name="answer" value="{{ answer.answer }}" />
+                    <input type="radio" id="answer-{{ answer.id }}" name="answer" required value="{{ answer.answer }}" />
                     <label for="answer-{{ answer.id }}">{{ answer.answer }}</label>
                 </span>
             {% endfor %}
@@ -29,7 +29,7 @@
         {% else %}
             <span>
                 <label for="answer">Ваш ответ: </label>
-                <input type="text" id="answer" name="answer" autocomplete="off"/>
+                <input type="text" id="answer" name="answer" required autocomplete="off"/>
             </span>
         {% endif %}
         <input type="submit" value="Ответить" class="btn btn-danger"/>
