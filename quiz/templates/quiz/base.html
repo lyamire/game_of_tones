@@ -13,6 +13,10 @@
     <div class='topMenu'>
         <a href="{% url 'index' %}">Game Of Notes</a>
         <div class="menu-link">
+            <a>
+                <img width="24" height="24" src="{% static 'img/game.png' %}" alt="rules"/>
+                Правила
+            </a>
             <a href="{% url 'genres' %}">
                 <img width="24" height="24" src="{% static 'img/icons8-notes-24.png' %}" alt="musical-notes"/>
                 Жанры
@@ -20,6 +24,10 @@
             <a>
                 <img width="24" height="24" src="{% static 'img/icons8-battles-24.png' %}" alt="fencing-swords"/>
                 Battles
+            </a>
+            <a>
+                <img width="24" height="24" src="{% static 'img/icons8-puzzle-24.png' %}" alt="puzzle"/>
+                Создать квиз
             </a>
         </div>
         <div class="menu-auth">
@@ -40,3 +48,5 @@
 {#    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>#}
 </body>
 </html>
+
+

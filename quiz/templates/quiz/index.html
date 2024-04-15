@@ -1,16 +1,30 @@
 {% extends 'quiz/base.html' %}
+{% load static %}
 
 {% block title %}  {% endblock %}
 
 {% block body %}
-    <div>
-        <p>
-            Добро пожаловать в Game of Notes, где вы сможете занять свой музыкальный трон!<br>
-            Погрузитесь в мир, где царит музыка, и бросьте вызов себе, чтобы раскрыть секреты мелодии и ритма.<br>
-            Вступай в наше сообщество страстных любителей музыки и прояви свои знания.<br>
-            Готовы ли вы взойти на свое законное место на музыкальном троне?<br>
-            Присоединяйтесь к Game of Notes и начните свое путешествие сегодня!
-        </p>
+    <div class="topIndex">
+    </div>
+    <div class="indexMain">
+        <div class="indexLogo">
+            <img width="24" height="24" src="{% static 'img/logo.svg' %}" alt="musical-notes"/>
+        </div>
+        <div class="indexNameProject">
+            <h3>Game Of Notes</h3>
+        </div>
+        <div class="indexProjectDescription">
+            <p>take your musical throne</p>
+        </div>
+        <div class="indexAbout">
+            <p>
+                Добро пожаловать в Game of Notes, где вы сможете занять свой музыкальный трон!<br>
+                Погрузитесь в мир, где царит музыка, и бросьте вызов себе, чтобы раскрыть секреты мелодии и ритма.<br>
+                Вступай в наше сообщество страстных любителей музыки и прояви свои знания.<br>
+                Готовы ли вы взойти на свое законное место на музыкальном троне?<br>
+                Присоединяйтесь к Game of Notes и начните свое путешествие сегодня!
+            </p>
+        </div>
     </div>
     <div>
         <h3>Правила:</h3>
