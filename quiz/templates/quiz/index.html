@@ -3,7 +3,6 @@
 {% block title %}  {% endblock %}
 
 {% block body %}
-    <a href="{% url 'genres' %}">Жанры</a>
     <div>
         <p>
             Добро пожаловать в Game of Notes, где вы сможете занять свой музыкальный трон!<br>
@@ -24,6 +23,7 @@
     </div>
     <div>
         {% if quizzes %}
+            <h3>Квизы:</h3>
             <ul>
                 {% for quiz in quizzes|dictsort:'name' %}
                     <li><a href="{% url 'quiz_details' quiz.id %}">{{ quiz.name }}</a></li>

@@ -24,10 +24,14 @@
     </form>
         <div style="display: flex; flex-direction: column">
             <h3>Пройденный квизы:</h3>
+            {% if games %}
             <ul>
                 {% for game in games %}
-                    <li><a href="{% url 'quiz_details' game.quiz.id %}">{{ game.quiz.name }}</a> - {{ game.score }} балло</li>
+                    <li><a href="{% url 'quiz_details' game.quiz.id %}">{{ game.quiz.name }}</a> - {{ game.score }} баллов</li>
                 {% endfor %}
             </ul>
+            {% else %}
+                <p>Вы еще не играли ни в один квиз</p>
+            {% endif %}
         </div>
 {% endblock %}

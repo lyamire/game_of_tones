@@ -1,3 +1,4 @@
+from django.contrib.auth.decorators import login_required
 from django.http import FileResponse, HttpResponse
 from django.shortcuts import get_object_or_404, redirect, render
 
@@ -19,11 +20,13 @@ def quiz_details(request, quiz_id: int):
     }
     return render(request, 'quiz/quiz_details.html', context)
 
+@login_required
 def new_game(request, quiz_id: int):
     quiz = get_object_or_404(Quiz, id=quiz_id)
     game = Game.objects.create(user=request.user, quiz=quiz)
     return redirect('round_details', game.id, quiz.rounds.first().id)
 
+@login_required
 def round_details(request, game_id: int, round_id: int):
     game = get_object_or_404(Game, id=game_id)
     round_info: Round = game.quiz.rounds.filter(id=round_id).first()
@@ -36,6 +39,7 @@ def round_details(request, game_id: int, round_id: int):
     }
     return render(request, 'quiz/round_details.html', context)
 
+@login_required
 def question_details(request, game_id: int, round_id: int, question_id: int):
     game = get_object_or_404(Game, id=game_id)
     round_info: Round = game.quiz.rounds.filter(id=round_id).first()
@@ -76,7 +80,7 @@ def download_file(request, file_id):
     uploaded_file = Attachment.objects.get(pk=file_id)
     return FileResponse(uploaded_file.file_path.file)
 
-
+@login_required
 def result_details(request, game_id: int):
     game = get_object_or_404(Game, id=game_id)
 
