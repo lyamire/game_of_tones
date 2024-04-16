@@ -169,6 +169,15 @@ body {
     justify-content: center;
 }
 
+.indexQuizzes a{
+    color: #3a28a7;
+    text-decoration: none;
+}
+
+.indexQuizzes a:hover{
+    color: #7770ff;
+}
+
 .indexQuiz{
     width: 30%;
     padding: 0 12px;
@@ -216,16 +225,32 @@ body {
     width: 30%;
     text-align: center;
 }
-
-.genreName h3{
-    text-align: center;
+.genreNameIcon{
+    gap: 10px;
+    display: flex;
+    align-items: center;
     margin-left: auto;
-    margin-right: auto;
+    justify-content: center;
 }
+
+.genreNameIcon h3 img {
+    position: relative;
+    top: 5px;
+}
+
 
 .genreQuizzes ul{
     list-style: none;
     justify-content: center;
     margin: 0;
     padding: 0;
+}
+
+.genreQuizzes a{
+    color: #3a28a7;
+    text-decoration: none;
+}
+
+.genreQuizzes a:hover{
+    color: #7770ff;
 }

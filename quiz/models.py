@@ -9,6 +9,7 @@ from django.db import models
 
 class Genre(models.Model):
     name = models.CharField(max_length=50)
+    icon = models.FileField(upload_to='./files/covers', null=True)
 
     def __str__(self):
         return self.name

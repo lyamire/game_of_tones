@@ -80,6 +80,10 @@ def download_file(request, file_id):
     uploaded_file = Attachment.objects.get(pk=file_id)
     return FileResponse(uploaded_file.file_path.file)
 
+def download_icon(request, genre_id):
+    genre = Genre.objects.get(pk=genre_id)
+    return FileResponse(genre.icon.file)
+
 @login_required
 def result_details(request, game_id: int):
     game = get_object_or_404(Game, id=game_id)

@@ -13,4 +13,5 @@ urlpatterns = [
     path('genres/', views.genres, name='genres'),
     path('rules/', views.rules, name='rules'),
     path('quiz/<int:quiz_id>/rating/', views.rating, name='rating'),
+    path('genres/<int:genre_id>/icon', views.download_icon, name='icon'),
 ]
