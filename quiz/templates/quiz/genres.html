@@ -3,16 +3,24 @@
 {% block title %}  {% endblock %}
 
 {% block body %}
-    {% if genres %}
-        {% for genre in genres %}
-            {{ genre.name }}
-            <ul>
-                {% for quiz in genre.quizzes.all %}
-                    <li><a href="{% url 'quiz_details' quiz.id %}">{{ quiz.name }}</a></li>
+    <div class="genres">
+        {% if genres %}
+            <div class="genreItems">
+                {% for genre in genres %}
+                    <div class="genreName">
+                        <h3>{{ genre.name }}</h3>
+                        <div class="genreQuizzes">
+                            <ul>
+                                {% for quiz in genre.quizzes.all %}
+                                    <li><a href="{% url 'quiz_details' quiz.id %}">{{ quiz.name }}</a></li>
+                                {% endfor %}
+                            </ul>
+                        </div>
+                    </div>
                 {% endfor %}
-            </ul>
-        {% endfor %}
-    {% else %}
-        <p>No genres specified</p>>
-    {% endif %}
+            </div>
+        {% else %}
+            <p>No genres specified</p>>
+        {% endif %}
+    </div>
 {% endblock %}

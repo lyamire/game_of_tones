@@ -156,3 +156,76 @@ body {
     margin-right: auto;
     margin-bottom: 0;
 }
+
+.indexQuizzes{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+.indexQuizzes ul{
+    list-style: none;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+
+.indexQuiz{
+    width: 30%;
+    padding: 0 12px;
+    display: flex;
+    justify-content: center;
+}
+
+.rules h3{
+    text-align: center;
+    margin-left: auto;
+    margin-right: auto;
+    margin-bottom: 0;
+}
+
+.rulesItem{
+    display: flex;
+    justify-content: center;
+}
+
+.genres{
+    width: 100%;
+    max-width: 870px;
+    font-size: 16px;
+    line-height: 1.25;
+    font-weight: 500;
+    margin-left: auto;
+    margin-right: auto;
+    margin-bottom: 0;
+}
+
+.genreItems{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    list-style: none;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+
+.genreName{
+    margin-right: 10px;
+    margin-bottom: 15px;
+    margin-top: 15px;
+    width: 30%;
+    text-align: center;
+}
+
+.genreName h3{
+    text-align: center;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.genreQuizzes ul{
+    list-style: none;
+    justify-content: center;
+    margin: 0;
+    padding: 0;
+}

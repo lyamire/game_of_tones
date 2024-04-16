@@ -26,21 +26,13 @@
             </p>
         </div>
     </div>
-    <div>
-        <h3>Правила:</h3>
-        <ol>
-            <li>Каждый квиз может содержать 1 - 5 раундов. Каждый тур может содержать свою специфику и(или) тематику.</li>
-            <li>Каждый раунд содержит 10 вопросов.</li>
-            <li>На каждый ответ даётся 40 секунд.</li>
-            <li>За использование шазама - минус в карму! Давайте играть честно.</li>
-        </ol>
-    </div>
-    <div>
+    <div class="indexQuizzes">
         {% if quizzes %}
-            <h3>Квизы:</h3>
             <ul>
                 {% for quiz in quizzes|dictsort:'name' %}
-                    <li><a href="{% url 'quiz_details' quiz.id %}">{{ quiz.name }}</a></li>
+                    <div class="indexQuiz">
+                        <li><a href="{% url 'quiz_details' quiz.id %}">{{ quiz.name }}</a></li>
+                    </div>
                 {% endfor %}
             </ul>
         {% else %}

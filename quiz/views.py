@@ -120,3 +120,7 @@ def rating(request, quiz_id: int):
     }
 
     return render(request, 'quiz/rating.html', context)
+
+
+def rules(request):
+    return render(request, 'quiz/rules.html')

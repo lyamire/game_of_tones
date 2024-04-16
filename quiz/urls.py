@@ -11,5 +11,6 @@ urlpatterns = [
     path('game/<int:game_id>/result/', views.result_details, name='result_details'),
     path('file/<int:file_id>/', views.download_file, name='file'),
     path('genres/', views.genres, name='genres'),
+    path('rules/', views.rules, name='rules'),
     path('quiz/<int:quiz_id>/rating/', views.rating, name='rating'),
 ]
