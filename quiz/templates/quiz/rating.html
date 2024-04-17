@@ -3,10 +3,24 @@
 {% block title %}  {% endblock %}
 
 {% block body %}
-    <h2><a href="{% url 'quiz_details' quiz.id %}">{{ quiz.name }}</a></h2>
-    <ol>
-        {% for game in games %}
-            <li>{{ game.user.username }} - {{ game.score }}</li>
-        {% endfor %}
-    </ol>
+    <div class="topRating">
+    </div>
+    <div class="leaderBoardLayout">
+        <div class="ruleDescription__Content">
+            <div class="ruleDescription__TextBlock">
+                При одинаковом количестве очков выиграл тот, кто ответил быстрее
+            </div>
+            <div class="ruleDescription__CloseBlock">
+                <a class="icon-close" data-description-close="true"></a>
+            </div>
+        </div>
+
+        <h2><a href="{% url 'quiz_details' quiz.id %}">{{ quiz.name }}</a></h2>
+        <ol>
+            {% for game in games %}
+                <li>{{ game.user.username }} - {{ game.score }}</li>
+            {% endfor %}
+        </ol>
+    </div>
 {% endblock %}
+

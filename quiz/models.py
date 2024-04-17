@@ -15,6 +15,12 @@ class Genre(models.Model):
         return self.name
 
 class Quiz(models.Model):
+    class Status(models.TextChoices):
+        NEW = "New", _('New')
+        APPROVED = "Approved", _('Approved')
+        REJECTED = "Rejected", _('Rejected')
+        ONE_TIME = "One_Time", _('One_Time')
+
     class Level(models.TextChoices):
         EASY = "Easy", _('Easy')
         HARD = "Hard", _('Hard')
@@ -23,6 +29,7 @@ class Quiz(models.Model):
     description = models.TextField()
     genres = models.ManyToManyField(Genre, related_name='quizzes')
     level = models.CharField(max_length=4, choices=Level.choices, default=Level.EASY)
+    status = models.CharField(max_length=20, choices=Status.choices, default=Status.NEW)
 
     def __str__(self):
         return self.name

@@ -254,3 +254,59 @@ body {
 .genreQuizzes a:hover{
     color: #7770ff;
 }
+
+.topRating{
+    background-image: url("img/bg-leaderboard-desktop.png");
+    height: 0;
+    position: relative;
+    overflow: hidden;
+    padding-top: 278px;
+    display: block;
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center;
+}
+.leaderBoardLayout{
+    flex-flow: column;
+    align-items: stretch;
+    flex-flow: column;
+    margin-right: auto;
+    margin-left: auto;
+    padding-left: 20px;
+    padding-right: 20px;
+    box-sizing: border-box;
+}
+
+.ruleDescription__Content {
+    min-height: 3.5rem;
+    background-color: #f9f9f9;
+    border: 1px solid #cbceda80;
+    border-radius: .5rem;
+    font-size: 1rem;
+    font-weight: 600;
+    line-height: 1.1875rem;
+    color: #2d2442;
+    display: flex;
+    flex-direction: row;
+    margin-bottom: 1rem;
+}
+.ruleDescription__TextBlock {
+    margin-left: 1rem;
+    flex-grow: 1;
+    display: flex;
+    align-items: center;
+    margin-bottom: .5rem;
+    margin-top: .5rem;
+    justify-content: center;
+}
+.ruleDescription__TextBlock::before {
+    content: "";
+    width: 1.5rem;
+    height: 1.5rem;
+    display: block;
+    background-size: contain;
+    background-repeat: no-repeat;
+    flex-shrink: 0;
+    margin-right: .5rem;
+    background-image: url("data:image/svg+xml,%3Csvg width='24' height='24' viewBox='0 0 24 24' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M20.75 13.25C20.75 18.08 16.83 22 12 22C7.17 22 3.25 18.08 3.25 13.25C3.25 8.42 7.17 4.5 12 4.5C16.83 4.5 20.75 8.42 20.75 13.25Z' stroke='%232D2442' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'/%3E%3Cpath d='M12 8V13' stroke='%232D2442' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'/%3E%3Cpath d='M9 2H15' stroke='%232D2442' stroke-width='2' stroke-miterlimit='10' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+}
