@@ -89,18 +89,24 @@ class Answer(models.Model):
     def __str__(self):
         return f'{self.question} - {self.answer} - {self.valid_answer}'
 
+class Battle(models.Model):
+    quiz = models.ForeignKey(Quiz, related_name='battle', on_delete=models.CASCADE)
+
 class Game(models.Model):
     class Status(models.TextChoices):
         ACTIVE = "ACTIVE", _('Active')
         FINISHED = "FINISHED", _('Finished')
+        INVITED = "INVITED", _('Invited')
 
     user = models.ForeignKey(User, related_name='games', on_delete=models.CASCADE)
     quiz = models.ForeignKey(Quiz, related_name='games', on_delete=models.CASCADE)
     round_num = models.ForeignKey(Round, related_name='rounds', on_delete=models.CASCADE, default=1)
     question_number = models.PositiveSmallIntegerField(default=0)
     start_time = models.DateTimeField(default=datetime.datetime.now(datetime.timezone.utc))
+    end_time = models.DateTimeField(null=True, blank=True)
     status = models.CharField(max_length=20, choices=Status.choices, default=Status.ACTIVE)
     score = models.PositiveSmallIntegerField(default=0)
+    battle = models.ForeignKey(Battle, related_name='games', on_delete=models.CASCADE, null=True, blank=True)
 
     def __str__(self):
         return f'{self.user} - {self.quiz.name} - {self.score}'

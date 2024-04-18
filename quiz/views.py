@@ -22,9 +22,16 @@ def quiz_details(request, quiz_id: int):
 
 @login_required
 def new_game(request, quiz_id: int):
-    quiz = get_object_or_404(Quiz, id=quiz_id)
-    game = Game.objects.create(user=request.user, quiz=quiz)
-    return redirect('round_details', game.id, quiz.rounds.first().id)
+    game = create_game_for_user(request.user.id, quiz_id)
+    return redirect('round_details', game.id, game.quiz.rounds.first().id)
+
+@login_required
+def play_game(request, game_id: int):
+    game = get_object_or_404(Game, pk=game_id, user=request.user)
+    return redirect('round_details', game.id, game.quiz.rounds.first().id)
+
+def create_game_for_user(user_id, quiz_id) -> Game:
+    return Game.objects.create(user_id=user_id, quiz_id=quiz_id)
 
 @login_required
 def round_details(request, game_id: int, round_id: int):
@@ -59,6 +66,7 @@ def question_details(request, game_id: int, round_id: int, question_id: int):
         right_answer: Answer = current_question.answers.filter(valid_answer=True).first()
         if right_answer.answer == answer:
             game.score += 1
+            game.status = Game.Status.ACTIVE
             game.save()
 
         next_question: Question = round_info.get_question_after(question_num=current_question.number)
@@ -128,3 +136,52 @@ def rating(request, quiz_id: int):
 
 def rules(request):
     return render(request, 'quiz/rules.html')
+
+@login_required
+def battles(request):
+    invites = []
+    for game in Game.objects.filter(status=Game.Status.INVITED, user_id=request.user.id).all():
+        if game.battle is None:
+            continue
+
+        battle: Battle = game.battle
+        enemy: User = [game.user for game in battle.games.all() if game.user.id != request.user.id][0]
+        invite = {
+            'game': game,
+            'enemy': enemy.username
+        }
+        invites.append(invite)
+
+    context = {
+        'invited_games': invites
+    }
+
+    return render(request, 'quiz/battles.html', context)
+
+
+@login_required
+def new_battle(request):
+    if request.method == 'GET':
+        context = {
+            'users': User.objects.exclude(id=request.user.id).all(),
+        }
+        return render(request, 'quiz/new_battle.html', context)
+    if request.method == 'POST':
+        invited_user_id = request.POST.get("user_id")
+
+        # TODO create quiz
+        quiz_id = Quiz.objects.all().first().id
+
+        battle = Battle.objects.create(quiz_id=quiz_id)
+
+        our_game = create_game_for_user(request.user.id, quiz_id)
+        battle.games.add(our_game)
+
+        invited_game = create_game_for_user(invited_user_id, quiz_id)
+        invited_game.status = Game.Status.INVITED
+        invited_game.save()
+        battle.games.add(invited_game)
+
+        battle.save()
+
+        return redirect('round_details', our_game.id, our_game.quiz.rounds.first().id)
