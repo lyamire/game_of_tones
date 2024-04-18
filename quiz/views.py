@@ -6,7 +6,7 @@ from quiz.models import *
 
 def index(request):
     context = {
-        'quizzes': Quiz.objects.all()
+        'quizzes': Quiz.objects.filter(status=Quiz.Status.APPROVED).all()
     }
     return render(request, 'quiz/index.html', context)
 
@@ -62,11 +62,12 @@ def question_details(request, game_id: int, round_id: int, question_id: int):
         }
         return render(request, 'quiz/question_details.html', context)
     if request.method == 'POST':
+        game.status = Game.Status.ACTIVE
+
         answer = request.POST.get("answer", "")
         right_answer: Answer = current_question.answers.filter(valid_answer=True).first()
         if right_answer.answer == answer:
             game.score += 1
-            game.status = Game.Status.ACTIVE
             game.save()
 
         next_question: Question = round_info.get_question_after(question_num=current_question.number)
@@ -169,15 +170,14 @@ def new_battle(request):
     if request.method == 'POST':
         invited_user_id = request.POST.get("user_id")
 
-        # TODO create quiz
-        quiz_id = Quiz.objects.all().first().id
+        quiz = generate_quiz_for_battle()
 
-        battle = Battle.objects.create(quiz_id=quiz_id)
+        battle = Battle.objects.create(quiz_id=quiz.id)
 
-        our_game = create_game_for_user(request.user.id, quiz_id)
+        our_game = create_game_for_user(request.user.id, quiz.id)
         battle.games.add(our_game)
 
-        invited_game = create_game_for_user(invited_user_id, quiz_id)
+        invited_game = create_game_for_user(invited_user_id, quiz.id)
         invited_game.status = Game.Status.INVITED
         invited_game.save()
         battle.games.add(invited_game)
@@ -185,3 +185,25 @@ def new_battle(request):
         battle.save()
 
         return redirect('round_details', our_game.id, our_game.quiz.rounds.first().id)
+
+
+def generate_quiz_for_battle():
+    quiz = Quiz.objects.create(status=Quiz.Status.ONE_TIME)
+    round = quiz.rounds.create(name="Батл", description="Случайная выборка вопросов")
+
+    all_questions = Question.objects.filter(round__quiz__status=Quiz.Status.APPROVED).order_by('?')[:10]
+
+    for source_question in all_questions:
+        question = round.questions.create(number=round.questions.count(),
+                                          text=source_question.text)
+
+        for source_answer in source_question.answers.all():
+            question.answers.create(answer=source_answer.answer, valid_answer=source_answer.valid_answer)
+
+        attach: Attachment = source_question.attachments.first()
+        question.attachments.create(attachment_type=attach.attachment_type,
+                                    file_path=attach.file_path)
+
+    quiz.save()
+    return quiz
+

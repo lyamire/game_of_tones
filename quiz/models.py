@@ -39,13 +39,13 @@ class Quiz(models.Model):
 
 
 class Round(models.Model):
-    quizzes = models.ForeignKey(Quiz, related_name='rounds', on_delete=models.CASCADE)
+    quiz = models.ForeignKey(Quiz, related_name='rounds', on_delete=models.CASCADE)
     name = models.CharField(max_length=50)
     description = models.TextField()
     number = models.IntegerField(default=0)
 
     def __str__(self):
-        return f'{self.quizzes.name} - {self.name}'
+        return f'{self.quiz.name} - {self.name}'
 
     def get_question_after(self, question_num):
         return self.questions.order_by('number').filter(number__gt=question_num).first()
