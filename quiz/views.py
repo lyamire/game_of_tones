@@ -146,15 +146,24 @@ def battles(request):
             continue
 
         battle: Battle = game.battle
-        enemy: User = [game.user for game in battle.games.all() if game.user.id != request.user.id][0]
         invite = {
             'game': game,
-            'enemy': enemy.username
+            'enemy': battle.get_enemy_game(request.user.id).user.username
         }
         invites.append(invite)
 
+    battles_history = []
+    for battle in Battle.objects.filter(games__user_id=request.user.id).all():
+        enemy_game = battle.get_enemy_game(request.user.id)
+        battles_history.append({
+            'enemy': enemy_game.user.username,
+            'enemy_score': enemy_game.score,
+            'my_score': battle.games.filter(user_id=request.user.id).first().score
+        })
+
     context = {
-        'invited_games': invites
+        'invited_games': invites,
+        'battles': battles_history
     }
 
     return render(request, 'quiz/battles.html', context)

@@ -92,6 +92,18 @@ class Answer(models.Model):
 class Battle(models.Model):
     quiz = models.ForeignKey(Quiz, related_name='battle', on_delete=models.CASCADE)
 
+    # def get_enemy(self, current_user_id) -> User | None:
+    #     enemy_game = self.get_enemy_game(current_user_id)
+    #     if enemy_game:
+    #         return enemy_game.user
+    #     return None
+    #     # return [game.user for game in self.games.all() if game.user.id != current_user_id]
+
+    def get_enemy_game(self, current_user_id):
+        enemy_game: Game = self.games.exclude(user_id=current_user_id).first()
+        return enemy_game
+
+
 class Game(models.Model):
     class Status(models.TextChoices):
         ACTIVE = "ACTIVE", _('Active')

@@ -25,5 +25,16 @@
         <p>нет приглашенных батлов</p>
     {% endif %}
     </div>
+    <div class="battles">
+        {% if battles %}
+            <ul>
+                {% for battle in battles %}
+                    <li>Me {{ battle.my_score }} vs {{ battle.enemy }} {{ battle.enemy_score }}</li>
+                {% endfor %}
+            </ul>
+        {% else %}
+            <p>нет батлов</p>
+        {% endif %}
+    </div>
 
 {% endblock %}
