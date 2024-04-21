@@ -17,8 +17,12 @@
         <p>No genres specified</p>>
     {% endif %}
     <h2>Количество раундов: {{ rounds_count }}</h2>
+    {% if can_play %}
     <form action="{% url 'new_game' quiz.id %}" method="post">
             {% csrf_token %}
             <input type="submit" value="Начать" class="btn btn-danger"/>
     </form>
+    {% else %}
+        <p>Квиз ждёт подтверждения администратора</p>
+    {% endif %}
 {% endblock %}

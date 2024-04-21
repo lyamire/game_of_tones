@@ -29,7 +29,7 @@
         {% if battles %}
             <ul>
                 {% for battle in battles %}
-                    <li>Me {{ battle.my_score }} vs {{ battle.enemy }} {{ battle.enemy_score }}</li>
+                    <li>{{ current_user.username }} {{ battle.my_score }} vs {{ battle.enemy }} {{ battle.enemy_score }}</li>
                 {% endfor %}
             </ul>
         {% else %}

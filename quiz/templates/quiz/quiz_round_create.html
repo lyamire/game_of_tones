@@ -1,0 +1,17 @@
+{% extends 'quiz/base.html' %}
+
+{% block title %}  {% endblock %}
+
+{% block body %}
+    <h1>{{ quiz.name }}</h1>
+    <form action="{% url 'quiz_round_create' quiz.id %}" method="post">
+        {% csrf_token %}
+        <label for="number">Номер раунда</label>
+        <input type="number" name="number" id="number" />
+        <label for="name">Название</label>
+        <input type="text" name="name" id="name" />
+        <label for="description">Описание</label>
+        <input type="text" name="description" id="description" />
+        <input type="submit" value="Добавить" class="btn btn-danger"/>
+    </form>
+{% endblock %}

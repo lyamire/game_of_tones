@@ -16,6 +16,7 @@ class Genre(models.Model):
 
 class Quiz(models.Model):
     class Status(models.TextChoices):
+        DRAFT = "Draft", _('Draft')
         NEW = "New", _('New')
         APPROVED = "Approved", _('Approved')
         REJECTED = "Rejected", _('Rejected')
@@ -30,6 +31,7 @@ class Quiz(models.Model):
     genres = models.ManyToManyField(Genre, related_name='quizzes')
     level = models.CharField(max_length=4, choices=Level.choices, default=Level.EASY)
     status = models.CharField(max_length=20, choices=Status.choices, default=Status.NEW)
+    author = models.ForeignKey(User, related_name='quizzes', on_delete=models.SET_NULL, null=True, blank=True)
 
     def __str__(self):
         return self.name
@@ -40,9 +42,9 @@ class Quiz(models.Model):
 
 class Round(models.Model):
     quiz = models.ForeignKey(Quiz, related_name='rounds', on_delete=models.CASCADE)
+    number = models.IntegerField(default=0)
     name = models.CharField(max_length=50)
     description = models.TextField()
-    number = models.IntegerField(default=0)
 
     def __str__(self):
         return f'{self.quiz.name} - {self.name}'
@@ -64,7 +66,7 @@ class Question(models.Model):
     )
     def get_valid_answer(self):
         answers: List[Answer] = self.answers.filter(valid_answer=True)
-        if answers is None:
+        if len(answers) == 0:
             return 'No answer'
         return f'{answers[0].answer}'
 
