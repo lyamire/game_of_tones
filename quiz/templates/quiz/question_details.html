@@ -13,7 +13,7 @@
         <img src="{% url 'file' file.id %}" alt="question" style="max-width: 300px; max-height: 300px;"/>
         {% endif %}
     {% endif %}
-    <form action="{% url 'question' game.id round.id question.id %}" method="post">
+    <form id="question-form" name="question-form" action="{% url 'question' game.id round.id question.id %}" method="post">
         {% csrf_token %}
         {% if answers and answers|length > 1 %}
         <fieldset>
@@ -32,6 +32,18 @@
                 <input type="text" id="answer" name="answer" required autocomplete="off"/>
             </span>
         {% endif %}
-        <input type="submit" value="Ответить" class="btn btn-danger"/>
+        <input id="submit-btn" name="submit-btn" type="submit" value="Ответить" class="btn btn-danger"/>
     </form>
+    <script type="text/javascript">
+    let secondsLeft = 40;
+    let timer = window.setInterval(function() {
+        secondsLeft--;
+        if (secondsLeft <= 0) {
+            window.clearTimeout(timer);
+            document.getElementById('question-form').submit();
+        } else {
+            document.getElementById('submit-btn').value = `Ответить (${secondsLeft})`
+        }
+    }, 1000);
+    </script>
 {% endblock %}
