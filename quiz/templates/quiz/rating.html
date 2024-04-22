@@ -18,7 +18,7 @@
         <h2><a href="{% url 'quiz_details' quiz.id %}">{{ quiz.name }}</a></h2>
         <ol>
             {% for game in games %}
-                <li>{{ game.user.username }} - {{ game.score }}</li>
+                <li>{{ game.user.username }} - {{ game.score }} - {{ game.get_game_time }}</li>
             {% endfor %}
         </ol>
     </div>

@@ -14,7 +14,9 @@
                         <div class="genreQuizzes">
                             <ul>
                                 {% for quiz in genre.quizzes.all %}
+                                    {% if quiz.status == 'Approved' %}
                                     <li><a href="{% url 'quiz_details' quiz.id %}">{{ quiz.name }}</a></li>
+                                    {% endif %}
                                 {% endfor %}
                             </ul>
                         </div>

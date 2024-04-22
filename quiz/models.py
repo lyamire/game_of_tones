@@ -14,6 +14,7 @@ class Genre(models.Model):
     def __str__(self):
         return self.name
 
+
 class Quiz(models.Model):
     class Status(models.TextChoices):
         DRAFT = "Draft", _('Draft')
@@ -70,6 +71,7 @@ class Question(models.Model):
             return 'No answer'
         return f'{answers[0].answer}'
 
+
 class Attachment(models.Model):
     class TypesOfAttachments(models.TextChoices):
         IMG = "IMG", _('Image')
@@ -83,6 +85,7 @@ class Attachment(models.Model):
     def __str__(self):
         return self.file_path.name
 
+
 class Answer(models.Model):
     question = models.ForeignKey(Question, related_name='answers', on_delete=models.CASCADE)
     answer = models.TextField(max_length=50)
@@ -91,15 +94,9 @@ class Answer(models.Model):
     def __str__(self):
         return f'{self.question} - {self.answer} - {self.valid_answer}'
 
+
 class Battle(models.Model):
     quiz = models.ForeignKey(Quiz, related_name='battle', on_delete=models.CASCADE)
-
-    # def get_enemy(self, current_user_id) -> User | None:
-    #     enemy_game = self.get_enemy_game(current_user_id)
-    #     if enemy_game:
-    #         return enemy_game.user
-    #     return None
-    #     # return [game.user for game in self.games.all() if game.user.id != current_user_id]
 
     def get_enemy_game(self, current_user_id):
         enemy_game: Game = self.games.exclude(user_id=current_user_id).first()
@@ -124,3 +121,11 @@ class Game(models.Model):
 
     def __str__(self):
         return f'{self.user} - {self.quiz.name} - {self.score}'
+
+    @property
+    def get_game_time(self):
+        if not self.end_time or not self.start_time:
+            return 'Not finished'
+        td = self.end_time - self.start_time
+        td -= datetime.timedelta(microseconds=td.microseconds)
+        return str(td)

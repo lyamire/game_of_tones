@@ -88,6 +88,7 @@ def question_details(request, game_id: int, round_id: int, question_id: int):
                 return redirect('round_details', game.id, next_round.id)
 
         game.status = Game.Status.FINISHED
+        game.end_time = datetime.datetime.now(datetime.timezone.utc)
         game.save()
 
         return redirect('result_details', game.id)
@@ -250,6 +251,7 @@ class CreateQuiz(LoginRequiredMixin, CreateView):
                     quiz.status = Quiz.Status.DRAFT
                     quiz.author = request.user
                     quiz.save()
+                    form.save_m2m()
 
                 context = self.get_context_data()
                 rounds = context['rounds']

@@ -4,37 +4,39 @@
 {% block title %}  {% endblock %}
 
 {% block body %}
-    <form action="{% url 'new_battle' %}" method="get">
-        {% csrf_token %}
-        <input type="submit" value="Создать батл" class="btn btn-danger"/>
-    </form>
-    <div class="invites">
-    {% if invited_games %}
-        <ul>
-            {% for invite in invited_games %}
-                <li>
-                    {{ invite.enemy }}
-                    <form action="{% url 'play_game' invite.game.id %}" method="get">
-                        {% csrf_token %}
-                        <input type="submit" value="Играть" class="btn btn-danger"/>
-                    </form>
-                </li>
-            {% endfor %}
-         </ul>
-    {% else %}
-        <p>нет приглашенных батлов</p>
-    {% endif %}
-    </div>
-    <div class="battles">
-        {% if battles %}
+    <div class="main-block">
+        <form action="{% url 'new_battle' %}" method="get">
+            {% csrf_token %}
+            <input type="submit" value="Создать батл" class="submit-btn"/>
+        </form>
+        <div class="invites">
+        {% if invited_games %}
             <ul>
-                {% for battle in battles %}
-                    <li>{{ current_user.username }} {{ battle.my_score }} vs {{ battle.enemy }} {{ battle.enemy_score }}</li>
+                {% for invite in invited_games %}
+                    <li>
+                        {{ invite.enemy }}
+                        <form action="{% url 'play_game' invite.game.id %}" method="get">
+                            {% csrf_token %}
+                            <input type="submit" value="Играть" class="btn btn-danger"/>
+                        </form>
+                    </li>
                 {% endfor %}
-            </ul>
+             </ul>
         {% else %}
-            <p>нет батлов</p>
+            <p>нет приглашенных батлов</p>
         {% endif %}
+        </div>
+        <div class="battles">
+            {% if battles %}
+                <ul>
+                    {% for battle in battles %}
+                        <li>{{ current_user.username }} {{ battle.my_score }} vs {{ battle.enemy }} {{ battle.enemy_score }}</li>
+                    {% endfor %}
+                </ul>
+            {% else %}
+                <p>нет батлов</p>
+            {% endif %}
+        </div>
     </div>
 
 {% endblock %}

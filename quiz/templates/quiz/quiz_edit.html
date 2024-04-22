@@ -3,52 +3,61 @@
 {% block title %}  {% endblock %}
 
 {% block body %}
-    <h1>{{ quiz.name }}</h1>
-    <p>{{ quiz.description }}</p>
-    <h3>Жанры:</h3>
-    {% if quiz.genres %}
-        <ul>
-        {% for genre in genres %}
-            <li>{{ genre }}</li>
-        {% endfor %}
-        </ul>
-    {% else %}
-        <p>No genres specified</p>>
-    {% endif %}
-    <div class="rounds">
-    {% for round in rounds %}
-        <div class="round">
-            <h2>Round {{ round.name }}</h2>
-            <p>{{ round.description }}</p>
-            <div class="questions">
-                {% for question in round.questions.all %}
-                    <div class="question">
-                        <p>{{ question.text }}</p>
-                        <form action="{% url 'question_delete' quiz.id round.id question.id %}" method="post">
-                            {% csrf_token %}
-                            <input type="submit" value="Удалить вопрос" class="btn btn-danger"/>
-                        </form>
-                    </div>
-                {% endfor %}
-                <form action="{% url 'question_create' quiz.id round.id %}" method="get">
-                    {% csrf_token %}
-                    <input type="submit" value="Добавить вопрос" class="btn btn-danger"/>
-                </form>
+    <div class="main-block quiz-edit">
+        <h1>Название: {{ quiz.name }}</h1>
+        <p>Описание: {{ quiz.description }}</p>
+        <h3>Жанры:</h3>
+        {% if genres %}
+            <ul>
+            {% for genre in genres %}
+                <li>{{ genre }}</li>
+            {% endfor %}
+            </ul>
+        {% else %}
+            <p>No genres specified</p>
+        {% endif %}
+        <div class="rounds">
+        {% for round in rounds %}
+            <div class="round">
+            <div class="round-header">
+                <h2>Название раунда: {{ round.name }}</h2>
+                <div class="actions">
+                    <form action="{% url 'quiz_round_delete' quiz.id round.id %}" method="post">
+                        {% csrf_token %}
+                        <input type="submit" value="Удалить раунд" class="submit-quiz"/>
+                    </form>
+                </div>
             </div>
-            <form action="{% url 'quiz_round_delete' quiz.id round.id %}" method="post">
+                <p>Описание раунда: {{ round.description }}</p>
+                <div class="questions">
+                    <h3>Вопросы</h3>
+                    {% for question in round.questions.all %}
+                        <div class="question">
+                            <p>{{ question.text }}</p>
+                            <form action="{% url 'question_delete' quiz.id round.id question.id %}" method="post">
+                                {% csrf_token %}
+                                <input type="submit" value="Удалить вопрос" class="btn btn-danger"/>
+                            </form>
+                        </div>
+                    {% endfor %}
+                    <form action="{% url 'question_create' quiz.id round.id %}" method="get">
+                        {% csrf_token %}
+                        <input type="submit" value="Добавить вопрос" class="submit-quiz"/>
+                    </form>
+                </div>
+            </div>
+        {% endfor %}
+        <div class="actions">
+            <form action="{% url 'quiz_round_create' quiz.id %}" method="get">
                 {% csrf_token %}
-                <input type="submit" value="Удалить раунд" class="btn btn-danger"/>
+                <input type="submit" value="Добавить раунд" class="submit-quiz"/>
             </form>
         </div>
-    {% endfor %}
-    <form action="{% url 'quiz_round_create' quiz.id %}" method="get">
-        {% csrf_token %}
-        <input type="submit" value="Добавить раунд" class="btn btn-danger"/>
-    </form>
-    </div>
+        </div>
 
-    <form action="{% url 'quiz_edit' quiz.id %}" method="post">
-        {% csrf_token %}
-        <input type="submit" value="Отправить на подтверждение" class="btn btn-danger"/>
-    </form>
+        <form class="submit-form" action="{% url 'quiz_edit' quiz.id %}" method="post">
+            {% csrf_token %}
+            <input type="submit" value="Отправить на подтверждение" class="submit-quiz"/>
+        </form>
+    </div>
 {% endblock %}
