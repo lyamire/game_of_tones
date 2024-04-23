@@ -3,11 +3,13 @@
 {% block title %}  {% endblock %}
 
 {% block body %}
+    <div class="main-block quiz-details">
     <h1>{{ quiz.name }}</h1>
-    <h2>Раунд: {{ round.number }} - {{ round.name }}</h2>
-    <p>{{ round.description }}</p>
-    <form action="{% url 'question' game.id round.id first_question_id %}" method="get">
-            {% csrf_token %}
-            <input type="submit" value="Начать" class="btn btn-danger"/>
-    </form>
+        <h2>Раунд: {{ round.number }} - {{ round.name }}</h2>
+        <p>{{ round.description }}</p>
+        <form class="form-center" action="{% url 'question' game.id round.id first_question_id %}" method="get">
+                {% csrf_token %}
+                <input type="submit" value="Начать" class="submit-btn"/>
+        </form>
+    </div>
 {% endblock %}

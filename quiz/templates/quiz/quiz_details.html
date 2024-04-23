@@ -3,26 +3,28 @@
 {% block title %}  {% endblock %}
 
 {% block body %}
-    <h1>{{ quiz.name }}</h1>
-    <p>{{ quiz.description }}</p>
-    <h3><a href="{% url 'rating' quiz.id %}">Рейтинг</a></h3>
-    <h3>Жанры:</h3>
-    {% if quiz.genres %}
-        <ul>
-        {% for genre in genres %}
-            <li>{{ genre }}</li>
-        {% endfor %}
-        </ul>
-    {% else %}
-        <p>No genres specified</p>>
-    {% endif %}
-    <h2>Количество раундов: {{ rounds_count }}</h2>
-    {% if can_play %}
-    <form action="{% url 'new_game' quiz.id %}" method="post">
+    <div class="main-block quiz-details">
+        <h1>{{ quiz.name }}</h1>
+        <p>{{ quiz.description }}</p>
+        <h3><a href="{% url 'rating' quiz.id %}">Рейтинг</a></h3>
+        <h3>Жанры:</h3>
+        {% if quiz.genres %}
+            <ul>
+            {% for genre in genres %}
+                <li>{{ genre }}</li>
+            {% endfor %}
+            </ul>
+        {% else %}
+            <p>No genres specified</p>>
+        {% endif %}
+        <h2>Количество раундов: {{ rounds_count }}</h2>
+        {% if can_play %}
+        <form class="form-center" action="{% url 'new_game' quiz.id %}" method="post">
             {% csrf_token %}
-            <input type="submit" value="Начать" class="btn btn-danger"/>
-    </form>
-    {% else %}
-        <p>Квиз ждёт подтверждения администратора</p>
-    {% endif %}
+            <input type="submit" value="Начать" class="submit-btn"/>
+        </form>
+        {% else %}
+            <p>Квиз ждёт подтверждения администратора</p>
+        {% endif %}
+    </div>
 {% endblock %}

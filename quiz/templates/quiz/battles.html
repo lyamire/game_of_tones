@@ -28,6 +28,7 @@
         </div>
         <div class="battles">
             {% if battles %}
+                <h3>Прошедшие батлы:</h3>
                 <ul>
                     {% for battle in battles %}
                         <li>{{ current_user.username }} {{ battle.my_score }} vs {{ battle.enemy }} {{ battle.enemy_score }}</li>

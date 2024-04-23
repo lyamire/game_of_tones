@@ -95,7 +95,7 @@ table {
     font-size: 14px;
 }
 
-.create-quiz, .create-question {
+.form-center, .create-quiz, .create-question {
     display: flex;
     justify-content: center;
 }
@@ -167,20 +167,6 @@ table {
     flex-direction: column;
 }
 
-.submit-btn {
-    font-size: 14px;
-    margin: 5px;
-    padding: 10px;
-    width: 150px;
-    align-self: center;
-    border: 1px solid #fff;
-    border-radius: 34px;
-    color: #fff;
-    background-color: #3a28a7;
-}
-.submit-btn:hover{
-    background-color: #7770ff;
-}
 .submit-edit-quiz{
     font-size: 12px;
     margin: 5px;
@@ -457,4 +443,32 @@ table {
 .invites li {
     display: inline-flex;
     gap: 10px;
+}
+
+.quiz-details{
+    width: 900px;
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    margin: auto;
+    font-size: 14px;
+}
+
+/*.btn-quiz{*/
+/*    width: 120px;*/
+/*}*/
+
+input[type=submit].submit-btn {
+    font-size: 14px;
+    margin: 5px;
+    padding: 10px;
+    width: 150px;
+    align-self: center;
+    border: 1px solid #fff;
+    border-radius: 34px;
+    color: #fff;
+    background-color: #3a28a7;
+}
+input[type=submit].submit-btn:hover{
+    background-color: #7770ff;
 }
