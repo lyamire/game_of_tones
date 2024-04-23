@@ -95,12 +95,21 @@ table {
     font-size: 14px;
 }
 
-.form-center, .create-quiz, .create-question {
+.create-quiz,
+.create-question {
     display: flex;
     justify-content: center;
+    /*flex-direction: column;*/
 }
 
-.create-quiz form, .create-question form {
+.form-center {
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+}
+
+.create-quiz form,
+.create-question form {
     display: flex;
     flex-direction: column;
     width: 640px;
@@ -130,7 +139,8 @@ table {
     justify-content: space-between;
 }
 
-.quiz-details p:has(input),p:has(select) {
+.quiz-details p:has(input),
+.quiz-details p:has(select) {
     width: 100%;
     display: inline-flex;
     justify-content: space-between;
@@ -140,11 +150,12 @@ table {
     width: 100%;
 }
 
-.quiz-details p textarea {
+.quiz-details p > textarea {
     width: 100%;
 }
 
-.quiz-details input,select {
+.quiz-details p > input[type=text],
+.quiz-details p > select {
     width: 100%;
     margin-left: 10px;
 }
@@ -446,7 +457,7 @@ table {
 }
 
 .quiz-details{
-    width: 900px;
+    width: 640px;
     display: flex;
     justify-content: center;
     flex-direction: column;
@@ -471,4 +482,17 @@ input[type=submit].submit-btn {
 }
 input[type=submit].submit-btn:hover{
     background-color: #7770ff;
+}
+
+.file audio{
+    width: 400px;
+}
+
+.answers{
+    display: flex;
+    flex-direction: column;
+}
+
+fieldset{
+    border: none;
 }

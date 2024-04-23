@@ -12,11 +12,11 @@
             <label for="text">Текст вопроса</label>
             <textarea id="text" name="text"></textarea>
             <div class="attachments">
-                <div class="file">
+                <p class="file">
                     <label for="file">Файл</label>
                     <input type="file" name="file" id="file"/>
-                </div>
-                <div class="file-type">
+                </p>
+                <p class="file-type">
                     <label for="attachment_type">Тип файла</label>
                     <select name="attachment_type" id="attachment_type" required>
                         <option value="">No file</option>
@@ -24,7 +24,7 @@
                             <option value="{{ type }}">{{ type }}</option>
                         {% endfor %}
                     </select>
-                </div>
+                </p>
             </div>
             <label for="answers">Варианты ответа</label>
             <textarea id="answers" name="answers"></textarea>
