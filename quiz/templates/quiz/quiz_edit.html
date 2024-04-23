@@ -24,33 +24,33 @@
                 <div class="actions">
                     <form action="{% url 'quiz_round_delete' quiz.id round.id %}" method="post">
                         {% csrf_token %}
-                        <input type="submit" value="Удалить раунд" class="submit-quiz"/>
+                        <input type="submit" value="Удалить раунд" class="submit-edit-quiz"/>
                     </form>
                 </div>
             </div>
                 <p>Описание раунда: {{ round.description }}</p>
                 <div class="questions">
-                    <h3>Вопросы</h3>
+                    <h3>Вопросы:</h3>
                     {% for question in round.questions.all %}
                         <div class="question">
-                            <p>{{ question.text }}</p>
+                            <p>{{ question.number }} - {{ question.text }}</p>
                             <form action="{% url 'question_delete' quiz.id round.id question.id %}" method="post">
                                 {% csrf_token %}
-                                <input type="submit" value="Удалить вопрос" class="btn btn-danger"/>
+                                <input type="submit" value="Удалить вопрос" class="submit-edit-quiz"/>
                             </form>
                         </div>
                     {% endfor %}
                     <form action="{% url 'question_create' quiz.id round.id %}" method="get">
                         {% csrf_token %}
-                        <input type="submit" value="Добавить вопрос" class="submit-quiz"/>
+                        <input type="submit" value="Добавить вопрос" class="submit-edit-quiz"/>
                     </form>
                 </div>
             </div>
         {% endfor %}
-        <div class="actions">
+        <div class="actions-end">
             <form action="{% url 'quiz_round_create' quiz.id %}" method="get">
                 {% csrf_token %}
-                <input type="submit" value="Добавить раунд" class="submit-quiz"/>
+                <input type="submit" value="Добавить раунд" class="submit-edit-quiz"/>
             </form>
         </div>
         </div>

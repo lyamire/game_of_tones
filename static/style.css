@@ -87,22 +87,47 @@ table {
 }
 
 .quiz-edit{
-    width: 60%;
+    width: 640px;
     display: flex;
     justify-content: center;
     flex-direction: column;
     margin: auto;
+    font-size: 14px;
 }
 
-.create-quiz {
+.create-quiz, .create-question {
     display: flex;
     justify-content: center;
 }
 
-.create-quiz form {
+.create-quiz form, .create-question form {
     display: flex;
     flex-direction: column;
     width: 640px;
+}
+
+.create-question form > label {
+    margin-top: 10px;
+}
+
+.attachments {
+    width: 100%;
+    display: flex;
+    gap: 10px;
+    margin: 10px 0;
+}
+
+.attachments > div {
+    width: 50%;
+    display: flex;
+}
+
+.attachments > div > label {
+    width: inherit;
+}
+
+.attachments .file {
+    justify-content: space-between;
 }
 
 .quiz-details p:has(input),p:has(select) {
@@ -130,7 +155,11 @@ table {
 }
 
 .actions {
-    align-self: end;
+    align-self: center;
+}
+
+.action-end{
+    align-self: flex-end;
 }
 
 .submit-form {
@@ -140,19 +169,30 @@ table {
 
 .submit-btn {
     font-size: 14px;
-    margin: 10px;
+    margin: 5px;
     padding: 10px;
-    width: 160px;
+    width: 150px;
     align-self: center;
     border: 1px solid #fff;
     border-radius: 34px;
     color: #fff;
-    font-weight: 600;
     background-color: #3a28a7;
 }
 .submit-btn:hover{
     background-color: #7770ff;
 }
+.submit-edit-quiz{
+    font-size: 12px;
+    margin: 5px;
+    padding: 5px;
+    width: 130px;
+    align-self: center;
+    color: #7770ff;
+    background-color: transparent;
+    border: 1px solid #7770ff;
+    font-weight: bold;
+}
+
 .submit-quiz {
     font-size: 14px;
     margin: 5px;
@@ -165,13 +205,19 @@ table {
     background-color: #7770ff;
 }
 
+.submit-quiz:hover{
+    background-color: #3a28a7;
+}
+
 .round {
     border: 1px solid #bebebe;
-    padding: 4px;
+    padding: 10px;
+    margin: 5px;
 }
 
 .round-header {
     display: flex;
+    flex-direction: row;
     justify-content: space-between;
 }
 
