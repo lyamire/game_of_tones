@@ -5,6 +5,8 @@ from django.shortcuts import get_object_or_404, render
 from django.shortcuts import render, redirect
 from django.contrib import messages
 from django.contrib.auth import login
+
+from quiz.models import Game, Quiz
 from .forms import RegisterForm
 from .models import Profile
 
@@ -30,7 +32,7 @@ def profile_details(request):
     profile: Profile = Profile.objects.get_or_create(user=request.user)[0]
 
     games = {}
-    for game in profile.user.games.order_by('-score').all():
+    for game in profile.user.games.filter(quiz__status=Quiz.Status.APPROVED).order_by('-score').all():
         if game.quiz.id in games:
             continue
         games[game.quiz.id] = game

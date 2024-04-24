@@ -17,6 +17,9 @@
     font-size: 14px;
 
 }
+.topMenu a:hover{
+    color: #e3ff7c;
+}
 
 .menu-auth{
     display: flex;
@@ -84,6 +87,10 @@ table {
 
 .main-block {
     margin: 20px;
+}
+
+.border{
+    border: 1px solid #7770ff;
 }
 
 .quiz-edit{
@@ -495,4 +502,67 @@ input[type=submit].submit-btn:hover{
 
 fieldset{
     border: none;
+}
+
+.align-center{
+    text-align: center;
+}
+
+.user-quizzes{
+    display: flex;
+    flex-direction: column;
+}
+
+.user-quizzes h3{
+    margin-bottom: 5px;
+}
+
+.profile label,
+.login p{
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    width: 300px;
+}
+
+.btn-small{
+    padding: 5px;
+    margin-top: 10px;
+    background-color: #7770ff;
+    color: #fff;
+    border-radius: 5px;
+    width: 300px;
+
+}
+.rating-table{
+    width: 800px;
+    margin: auto;
+}
+
+.rating-table h2{
+    text-align: center;
+}
+.rating-table th,
+.rating-table td,
+.rating-table table{
+    border: 1px solid #7770ff;
+}
+.rating-table th{
+    background-color: #7770ff;
+    color: #fff;
+}
+
+.rating-table table{
+    width: 100%;
+    text-align: center;
+}
+
+.rating-table a,
+.quiz-details a{
+    color: #3a28a7;
+    text-decoration: none;
+}
+.rating-table a:hover,
+.quiz-details a:hover{
+    color: #7770ff;
 }
