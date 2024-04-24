@@ -31,7 +31,8 @@ class RoundInline(admin.TabularInline):
 
 @admin.register(Quiz)
 class QuizAdmin(admin.ModelAdmin):
-    list_display = ["name", 'level']
+    list_filter = ['status']
+    list_display = ["name", 'level', 'status', 'author']
     inlines = [RoundInline]
 
 class QuestionInline(admin.TabularInline):
