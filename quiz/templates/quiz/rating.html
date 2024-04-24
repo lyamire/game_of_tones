@@ -1,11 +1,20 @@
 {% extends 'quiz/base.html' %}
+{% load static %}
 
 {% block title %}  {% endblock %}
 
 {% block body %}
     <div class="topRating">
     </div>
+    <div class="indexMain">
+        <div class="indexLogo">
+            <img src="{% static 'img/free-sticker-award-7796707.png' %}" alt="award"/>
+        </div>
+    </div>
     <div class="main-block">
+        <div class="text-align">
+            <h2><a href="{% url 'quiz_details' quiz.id %}">{{ quiz.name }}</a></h2>
+        </div>
         <div class="leaderBoardLayout">
             <div class="ruleDescription__Content">
                 <div class="ruleDescription__TextBlock">
@@ -16,7 +25,6 @@
                 </div>
             </div>
             <div class="rating-table">
-                <h2><a href="{% url 'quiz_details' quiz.id %}">{{ quiz.name }}</a></h2>
                 <table>
                     <thead>
                     <tr>

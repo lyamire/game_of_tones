@@ -1,3 +1,4 @@
+import re
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.core.exceptions import PermissionDenied
@@ -71,9 +72,11 @@ def question_details(request, game_id: int, round_id: int, question_id: int):
     if request.method == 'POST':
         game.status = Game.Status.ACTIVE
 
-        answer = request.POST.get("answer", "")
+        answer: str = request.POST.get("answer", "")
         right_answer: Answer = current_question.answers.filter(valid_answer=True).first()
-        if right_answer.answer == answer:
+        right_answer_chars = re.sub(r'\W+', '', right_answer.answer.lower()).strip()
+        answer_chars = re.sub(r'\W+', '', answer.lower()).strip()
+        if right_answer_chars == answer_chars:
             game.score += 1
             game.save()
 
@@ -113,7 +116,8 @@ def result_details(request, game_id: int):
         'game': game,
         'quiz': game.quiz,
         'score': game.score,
-        'max_score': questions_count
+        'max_score': questions_count,
+        'total_time':game.get_game_time
     }
     return render(request, 'quiz/result_details.html', context)
 

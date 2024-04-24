@@ -1,4 +1,5 @@
 {% extends 'quiz/base.html' %}
+{% load static %}
 
 {% block title %}  {% endblock %}
 
@@ -6,6 +7,8 @@
     <div class="main-block align-center">
         <h1>{{ quiz.name }}</h1>
         <h2>Вы набрали: {{ score }} баллов из {{ max_score }}</h2>
+        <h3>Время: {{ total_time }}</h3>
         <h3><a href="{% url 'rating' quiz.id %}">Рейтинг</a></h3>
+        <img height="200px" src="{% static 'img/free-sticker-productivity-14898021.png' %}" alt="win"/>
     </div>
 {% endblock %}

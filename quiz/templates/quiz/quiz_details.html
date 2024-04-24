@@ -17,7 +17,8 @@
         {% else %}
             <p>No genres specified</p>>
         {% endif %}
-        <h2>Количество раундов: {{ rounds_count }}</h2>
+        <h3>Количество раундов: {{ rounds_count }}</h3>
+        <h3>Уровень: {{ quiz.level }}</h3>
         {% if can_play %}
         <form class="form-center" action="{% url 'new_game' quiz.id %}" method="post">
             {% csrf_token %}
