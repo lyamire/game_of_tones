@@ -50,7 +50,7 @@ def play_game(request, game_id: int):
     return redirect('round_details', game.id, game.quiz.rounds.first().id)
 
 def create_game_for_user(user_id, quiz_id) -> Game:
-    return Game.objects.create(user_id=user_id, quiz_id=quiz_id)
+    return Game.objects.create(user_id=user_id, quiz_id=quiz_id, start_time=datetime.datetime.now(datetime.timezone.utc))
 
 @login_required
 def round_details(request, game_id: int, round_id: int):
@@ -293,6 +293,9 @@ class CreateQuiz(LoginRequiredMixin, CreateView):
             return render(request, self.template_name, context)
 
     def get_success_url(self):
+        """
+        :return: New quiz url for redirection
+        """
         return reverse_lazy('quiz_edit', kwargs={'quiz_id': self.object.id})
 
 @login_required()

@@ -6,7 +6,8 @@
     <div class="main-block quiz-details">
         <h1>{{ quiz.name }}</h1>
         <h2>Раунд {{ round.number }} - {{ round.name }}</h2>
-        <h2>Вопрос № {{ question.number }}: {{ question.text }}</h2>
+        <h2>Вопрос № {{ question.number }}</h2>
+        <pre>{{ question.text|safe }}</pre>
         <div class="file">
             {% if file %}
                 {% if file.attachment_type == 'AUD' %}
