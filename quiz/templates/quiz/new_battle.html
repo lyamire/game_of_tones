@@ -4,14 +4,16 @@
 {% block title %}  {% endblock %}
 
 {% block body %}
-    <form action="{% url 'new_battle' %}" method="post">
-        {% csrf_token %}
-        <label for="user_id">Выберите противника:</label>
-        <select name="user_id" id="user_id" required>
-            {% for user in users %}
-                <option value="{{ user.id }}">{{ user.username }}</option>
-            {% endfor %}
-        </select>
-        <input type="submit" value="Начать батл" class="btn btn-danger"/>
-    </form>
+    <div class="main-block">
+        <form action="{% url 'new_battle' %}" method="post">
+            {% csrf_token %}
+            <label for="user_id">Выберите противника:</label>
+            <select name="user_id" id="user_id" required>
+                {% for user in users %}
+                    <option value="{{ user.id }}">{{ user.username }}</option>
+                {% endfor %}
+            </select>
+            <input type="submit" value="Начать батл" class="btn-small"/>
+        </form>
+    </div>
 {% endblock %}

@@ -584,3 +584,16 @@ fieldset{
 .quiz-details a:hover{
     color: #7770ff;
 }
+.invites{
+    display: flex;
+    justify-content: flex-start;
+}
+
+
+.btn-grey{
+    width: auto;
+    background-color: #7770ff;
+    color: #fff;
+    padding: 5px;
+    border-radius: 5px;
+}

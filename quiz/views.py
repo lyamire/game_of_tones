@@ -3,6 +3,7 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.core.exceptions import PermissionDenied
 from django.db import transaction
+from django.db.models import F
 from django.http import FileResponse, HttpResponseRedirect
 from django.shortcuts import get_object_or_404, redirect, render
 from django.urls import reverse_lazy
@@ -59,6 +60,12 @@ def question_details(request, game_id: int, round_id: int, question_id: int):
     game = get_object_or_404(Game, id=game_id)
     round_info: Round = game.quiz.rounds.filter(id=round_id).first()
     current_question: Question = get_object_or_404(Question, id=question_id)
+
+    if game.status == Game.Status.INVITED:
+        game.status = Game.Status.ACTIVE
+        game.start_time = datetime.datetime.now(datetime.timezone.utc)
+        game.save()
+
     if request.method == 'GET':
         context = {
             'game': game,
@@ -70,7 +77,6 @@ def question_details(request, game_id: int, round_id: int, question_id: int):
         }
         return render(request, 'quiz/question_details.html', context)
     if request.method == 'POST':
-        game.status = Game.Status.ACTIVE
 
         answer: str = request.POST.get("answer", "")
         right_answer: Answer = current_question.answers.filter(valid_answer=True).first()
@@ -117,7 +123,7 @@ def result_details(request, game_id: int):
         'quiz': game.quiz,
         'score': game.score,
         'max_score': questions_count,
-        'total_time':game.get_game_time
+        'total_time': game.get_game_time
     }
     return render(request, 'quiz/result_details.html', context)
 
@@ -132,7 +138,11 @@ def genres(request):
 
 def rating(request, quiz_id: int):
     quiz = Quiz.objects.get(id=quiz_id)
-    games = quiz.games.order_by('-score').all()
+    games = (quiz.games
+             .annotate(dt_difference=F('end_time') - F('start_time'))
+             .order_by('-score', 'dt_difference')
+             .filter(status=Game.Status.FINISHED, end_time__isnull=False)
+             .all())
 
     scores = {}
     for game in games:
@@ -141,7 +151,7 @@ def rating(request, quiz_id: int):
 
     context = {
         'games': scores.values(),
-        'quiz': quiz,
+        'quiz': quiz
     }
 
     return render(request, 'quiz/rating.html', context)
@@ -171,7 +181,8 @@ def battles(request):
         battles_history.append({
             'enemy': enemy_game.user.username,
             'enemy_score': enemy_game.score,
-            'my_score': battle.games.filter(user_id=request.user.id).first().score
+            'my_score': battle.games.filter(user_id=request.user.id).first().score,
+            'quiz_id': battle.quiz_id
         })
 
     context = {
@@ -210,7 +221,6 @@ def new_battle(request):
         return redirect('round_details', our_game.id, our_game.quiz.rounds.first().id)
 
 
-@login_required()
 def generate_quiz_for_battle():
     quiz = Quiz.objects.create(status=Quiz.Status.ONE_TIME)
     round = quiz.rounds.create(name="Батл", description="Случайная выборка вопросов")
@@ -225,8 +235,9 @@ def generate_quiz_for_battle():
             question.answers.create(answer=source_answer.answer, valid_answer=source_answer.valid_answer)
 
         attach: Attachment = source_question.attachments.first()
-        question.attachments.create(attachment_type=attach.attachment_type,
-                                    file_path=attach.file_path)
+        if attach:
+            question.attachments.create(attachment_type=attach.attachment_type,
+                                        file_path=attach.file_path)
 
     quiz.save()
     return quiz
@@ -290,7 +301,7 @@ def quiz_edit(request, quiz_id: int):
             'genres': quiz.genres.all(),
             'rounds': quiz.rounds.all()
         }
-        return render(request, 'quiz/quiz_edit.html', context)
+        return render(request, 'quiz/create_quiz_edit.html', context)
 
     if request.method == 'POST':
         quiz.status = Quiz.Status.NEW
@@ -307,7 +318,7 @@ def quiz_round_create(request, quiz_id: int):
         context = {
             'quiz': quiz
         }
-        return render(request, 'quiz/quiz_round_create.html', context)
+        return render(request, 'quiz/create_round.html', context)
 
     if request.method == 'POST':
         number = request.POST.get("number")
@@ -340,7 +351,7 @@ def question_create(request, quiz_id: int, round_id: int):
             "round": round,
             "attachment_types": Attachment.TypesOfAttachments
         }
-        return render(request, 'quiz/question_create.html', context)
+        return render(request, 'quiz/create_question.html', context)
 
     if request.method == 'POST':
         number = request.POST.get("number")
@@ -352,7 +363,7 @@ def question_create(request, quiz_id: int, round_id: int):
         with transaction.atomic():
             question = round.questions.create(text=text, number=number)
 
-            answers = answers_raw.split(r'\r\n')
+            answers = answers_raw.split('\r\n')
             for answer in answers:
                 text = answer.lstrip('+')
                 is_valid = answer.startswith('+') or len(answers) == 1

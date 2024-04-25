@@ -27,9 +27,9 @@ class Quiz(models.Model):
         EASY = "Easy", _('Easy')
         HARD = "Hard", _('Hard')
 
-    name = models.CharField(max_length=100)
-    description = models.TextField()
-    genres = models.ManyToManyField(Genre, related_name='quizzes')
+    name = models.CharField(max_length=100, verbose_name='Название')
+    description = models.TextField(verbose_name='Описание')
+    genres = models.ManyToManyField(Genre, related_name='quizzes', verbose_name='Жанры')
     level = models.CharField(max_length=4, choices=Level.choices, default=Level.EASY)
     status = models.CharField(max_length=20, choices=Status.choices, default=Status.NEW)
     author = models.ForeignKey(User, related_name='quizzes', on_delete=models.SET_NULL, null=True, blank=True)

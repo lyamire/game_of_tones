@@ -17,7 +17,7 @@
                         {{ invite.enemy }}
                         <form action="{% url 'play_game' invite.game.id %}" method="get">
                             {% csrf_token %}
-                            <input type="submit" value="Играть" class="btn btn-danger"/>
+                            <input type="submit" value="Играть" class="btn-grey"/>
                         </form>
                     </li>
                 {% endfor %}
@@ -31,7 +31,7 @@
                 <h3>Прошедшие батлы:</h3>
                 <ul>
                     {% for battle in battles %}
-                        <li>{{ current_user.username }} {{ battle.my_score }} vs {{ battle.enemy }} {{ battle.enemy_score }}</li>
+                        <li><a href="{% url 'rating' battle.quiz_id %}" >{{ current_user.username }} - {{ battle.my_score }} vs {{ battle.enemy }} - {{ battle.enemy_score }}</a></li>
                     {% endfor %}
                 </ul>
             {% else %}
