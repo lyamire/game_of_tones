@@ -2,6 +2,7 @@ import re
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.core.exceptions import PermissionDenied
+from django.core.paginator import Paginator
 from django.db import transaction
 from django.db.models import F
 from django.http import FileResponse, HttpResponseRedirect
@@ -12,12 +13,21 @@ from django.views.generic import CreateView
 from quiz.forms import *
 from quiz.models import *
 
+def paginate_items(request, quizzes, per_page=3):
+    paginator = Paginator(quizzes, per_page)
+    page_number = request.GET.get('page')
+    page_object = paginator.get_page(page_number)
+    return page_object
+
 def index(request):
+    quizzes = Quiz.objects.filter(status=Quiz.Status.APPROVED).all()
+    page_object = paginate_items(request, quizzes)
     context = {
-        'quizzes': Quiz.objects.filter(status=Quiz.Status.APPROVED).all()
+        'quizzes': page_object.object_list,
+        'page_object': page_object
+
     }
     return render(request, 'quiz/index.html', context)
-
 
 def quiz_details(request, quiz_id: int):
     quiz = get_object_or_404(Quiz, id=quiz_id)
@@ -126,7 +136,6 @@ def result_details(request, game_id: int):
         'total_time': game.get_game_time
     }
     return render(request, 'quiz/result_details.html', context)
-
 
 def genres(request):
     context = {
