@@ -5,13 +5,13 @@
 {% block body %}
     <div class="genres">
         {% if genres %}
-            <div class="genreItems">
+            <div class="genre-items">
                 {% for genre in genres %}
-                    <div class="genreName">
-                        <div class="genreNameIcon">
+                    <div class="genre-name">
+                        <div class="genre-name-icon">
                             <img width="24" height="24"  src="{% url 'icon' genre.id %}" alt="icon"/><h3>{{ genre.name }}</h3>
                         </div>
-                        <div class="genreQuizzes">
+                        <div class="genre-quizzes">
                             <ul>
                                 {% for quiz in genre.quizzes.all %}
                                     {% if quiz.status == 'Approved' %}

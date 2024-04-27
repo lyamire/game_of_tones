@@ -4,19 +4,19 @@
 {% block title %}  {% endblock %}
 
 {% block body %}
-    <div class="topIndex">
+    <div class="top-index">
     </div>
-    <div class="indexMain">
-        <div class="indexLogo">
+    <div class="index-main">
+        <div class="index-logo">
             <img src="{% static 'img/logo.svg' %}" alt="musical-notes"/>
         </div>
-        <div class="indexNameProject">
+        <div class="index-project-name">
             <h3>Game Of Notes</h3>
         </div>
-        <div class="indexProjectDescription">
+        <div class="index-project-description">
             <p>take your musical throne</p>
         </div>
-        <div class="indexAbout">
+        <div class="index-about">
             <p>
                 Добро пожаловать в Game of Notes, где вы сможете занять свой музыкальный трон!<br>
                 Погрузитесь в мир, где царит музыка, и бросьте вызов себе, чтобы раскрыть секреты мелодии и ритма.<br>
@@ -26,11 +26,11 @@
             </p>
         </div>
     </div>
-    <div class="indexQuizzes">
+    <div class="index-quizzes">
         {% if quizzes %}
             <ul>
                 {% for quiz in quizzes|dictsort:'name' %}
-                    <div class="indexQuiz">
+                    <div class="index-quiz">
                         <li><a href="{% url 'quiz_details' quiz.id %}">{{ quiz.name }}</a></li>
                     </div>
                 {% endfor %}

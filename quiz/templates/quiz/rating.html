@@ -4,10 +4,10 @@
 {% block title %}  {% endblock %}
 
 {% block body %}
-    <div class="topRating">
+    <div class="top-rating">
     </div>
-    <div class="indexMain">
-        <div class="indexLogo">
+    <div class="index-main">
+        <div class="index-logo">
             <img src="{% static 'img/free-sticker-award-7796707.png' %}" alt="award"/>
         </div>
     </div>
@@ -15,9 +15,9 @@
         <div class="text-align">
             <h2><a href="{% url 'quiz_details' quiz.id %}">{{ quiz.name }}</a></h2>
         </div>
-        <div class="leaderBoardLayout">
-            <div class="ruleDescription__Content">
-                <div class="ruleDescription__TextBlock">
+        <div class="leader-board-layout">
+            <div class="rule-description__content">
+                <div class="rule-description__textblock">
                     При одинаковом количестве очков выиграл тот, кто ответил быстрее
                 </div>
                 <div class="ruleDescription__CloseBlock">
