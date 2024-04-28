@@ -1,4 +1,4 @@
-version: "3.0"
+name: quiz
 
 services:
   app:
@@ -7,22 +7,23 @@ services:
     ports:
       - "8000:8000"
     environment:
-      DB_HOSTNAME: postgres
+      - DB_HOSTNAME=${DB_HOSTNAME:-db}
     depends_on:
-      - postgres
+      - db
     volumes:
       - ./attachments:/app/attachments
+    command: >
+      sh -c "python manage.py wait_for_database &&
+             python manage.py migrate &&
+             python manage.py runserver 0.0.0.0:8000"
 
-  postgres:
-    image: postgres
+  db:
+    image: postgres:16.2
     environment:
-      POSTGRES_USER: quiz
-      POSTGRES_PASSWORD: quiz
-      POSTGRES_DB: quiz
+      - POSTGRES_USER=${DB_USER:-quiz}
+      - POSTGRES_PASSWORD=${DB_PASSWORD:-quiz}
+      - POSTGRES_DB=${DB_NAME:-quiz}
 #    ports:
 #      - "5432:5432"
     volumes:
-      - database:/var/lib/postgresql
-
-volumes:
-  database:
+      - ./database:/var/lib/postgresql

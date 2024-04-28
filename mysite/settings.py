@@ -10,6 +10,7 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/5.0/ref/settings/
 """
 
+import os
 from pathlib import Path
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -39,6 +40,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'django_probes'
 ]
 
 MIDDLEWARE = [
@@ -81,7 +83,7 @@ DATABASES = {
        'NAME': 'quiz',
        'USER': 'quiz',
        'PASSWORD': 'quiz',
-       'HOST': 'localhost',
+       'HOST': os.environ.get("DB_HOSTNAME", default='127.0.0.1'),
        'PORT': 5432,
    }
 }
