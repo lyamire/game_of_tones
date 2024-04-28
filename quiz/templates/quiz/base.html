@@ -1,4 +1,5 @@
 {% load static %}
+{% load quiz_tags %}
 <!doctype html>
 <html lang="en-US">
 <head>
@@ -23,7 +24,7 @@
             </a>
             <a href="{% url 'battles' %}">
                 <img width="24" height="24" src="{% static 'img/icons8-battles-24.png' %}" alt="fencing-swords"/>
-                Battles
+                {% get_battle_invites_count request.user.id %}
             </a>
             <a href="{% url 'create_quiz' %}">
                 <img width="24" height="24" src="{% static 'img/icons8-puzzle-24.png' %}" alt="puzzle"/>

@@ -134,6 +134,9 @@ fieldset {
             top: 5px;
         }
     }
+    .has-battles {
+        color: #ff8ef3;
+    }
 }
 
 .main-block {
